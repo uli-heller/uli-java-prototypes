@@ -1,10 +1,12 @@
-ULI-CONFIGURATION-PARAMETERS
-============================
+ULI-JAVA-PROTOTYPES
+===================
 
 Einleitung
 ----------
 
-TBD
+In diesem Git-Projekt arbeite ich an diversen Java-Prototypen.
+Grob sind das Test-Implementierungen von Dingen, die ich manchmal
+in meine "richtigen" Projekte einbaue, manchmal auch nicht.
 
 Git
 ---
@@ -12,11 +14,11 @@ Git
 Gedächtnisstütze für mich:
 
 ```sh
-git init uli-configuration-parameters
-cd uli-configuration-parameters
+git init uli-java-prototypes
+cd uli-java-prototypes
 ...
 git commit -m "was-auch-immer" .
 # Neues Repo auf GitHub angelegt
-git remote add origin git@github.com:uli-heller/uli-configuration-parameters.git
+git remote add origin git@github.com:uli-heller/uli-java-prototypes.git
 git push -u origin master
 ```
