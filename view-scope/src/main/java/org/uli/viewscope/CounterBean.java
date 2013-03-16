@@ -1,3 +1,4 @@
+// Copied from: http://cagataycivici.wordpress.com/2010/02/17/port-jsf-2-0s-viewscope-to-spring-3-0/
 package org.uli.viewscope;
  
 import org.springframework.context.annotation.Scope;

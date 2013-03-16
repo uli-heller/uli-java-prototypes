@@ -6,6 +6,28 @@
     id="WebApp_ID" version="3.0">
   <display-name>A simple web application</display-name>
 
+  <!-- Spring framework -->
+  <listener>
+    <listener-class>
+    org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+  <listener>
+    <listener-class>
+    org.springframework.web.context.request.RequestContextListener
+    </listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+   </context-param>
+    <!-- Configuration locations must consist of one or more comma- or space-delimited
+         fully-qualified @Configuration classes -->
+   <context-param>
+     <param-name>contextConfigLocation</param-name>
+     <param-value>org.uli.viewscope.SpringConfig</param-value>
+   </context-param>
+
   <!-- Change to "Production" when you are ready to deploy -->
     <context-param>
      <param-name>javax.faces.PROJECT_STAGE</param-name>

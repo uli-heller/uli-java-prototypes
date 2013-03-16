@@ -11,9 +11,9 @@ in meine "richtigen" Projekte einbaue, manchmal auch nicht.
 Kompilierung
 ------------
 
-* Gradle Wrapper: `./gradlew check`
+* Gradle Wrapper: `./gradlew assemble`
 
-* Vorinstalliertes Gradle: `gradle check`
+* Vorinstalliertes Gradle: `gradle assemble`
 
 Git
 ---
