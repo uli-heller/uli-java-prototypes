@@ -1,15 +1,15 @@
 package org.uli.viewscope;
  
 import java.util.Map;
- 
+
 import javax.faces.context.FacesContext;
- 
+
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
  
 public class ViewScope implements Scope {
  
-    public Object get(String name, ObjectFactory objectFactory) {
+    public Object get(String name, @SuppressWarnings("rawtypes") ObjectFactory objectFactory) {
         Map<String,Object> viewMap = FacesContext.getCurrentInstance().getViewRoot().getViewMap();
  
         if(viewMap.containsKey(name)) {
