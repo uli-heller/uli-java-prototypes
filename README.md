@@ -15,6 +15,24 @@ Kompilierung
 
 * Vorinstalliertes Gradle: `gradle assemble`
 
+Eclipse
+-------
+
+* Eclipse-Projekte erzeugen: `./gradlew eclipse`
+
+* Eclipse starten
+
+* Eclipse-Projekte importieren
+
+    * File - Import
+
+    * General - Existing Projects into Workspace - Next
+
+    * Select root directory: uli-java-prototypes
+
+    * Projects: Alle selektieren - Finish
+
+
 Git
 ---
 
