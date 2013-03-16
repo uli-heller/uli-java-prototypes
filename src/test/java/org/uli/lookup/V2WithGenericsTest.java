@@ -1,42 +1,43 @@
 /**
  * 
  */
-package org.uli.javagenerics;
+package org.uli.lookup;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.uli.lookup.V2WithGenerics;
 
 
 /**
  * @author uli
  *
  */
-public class V3WithGenericsTest {
+public class V2WithGenericsTest {
     /**
-     * Test method for {@link org.uli.javagenerics.V3WithGenerics#get(java.lang.String, java.lang.Object)}.
+     * Test method for {@link org.uli.lookup.V2WithGenerics#get(java.lang.String, java.lang.Object)}.
      */
     @Test
     public void testGetString() {
-        String s = V3WithGenerics.getInstance().get("String");
+        String s = V2WithGenerics.getInstance().getString("String");
         assertEquals("a string", s);
     }
 
     @Test
     public void testGetBoolean() {
-        Boolean b = V3WithGenerics.getInstance().get("Boolean");
+        Boolean b = V2WithGenerics.getInstance().getBoolean("Boolean");
         assertEquals(true, b);
     }
 
     @Test
     public void testGetLong() {
-        Long l = V3WithGenerics.getInstance().get("Long");
+        Long l = V2WithGenerics.getInstance().getLong("Long");
         assertEquals((Long) 42L, l);
     }
 
     @Test(expected = ClassCastException.class)
     public void testGetStringException() {
-        String s = V3WithGenerics.getInstance().get("Boolean");
+        String s = V2WithGenerics.getInstance().getString("Boolean");
         assertEquals("a string", s); // never reached
     }
 }

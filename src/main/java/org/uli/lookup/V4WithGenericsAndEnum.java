@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.uli.javagenerics;
+package org.uli.lookup;
 
 import java.util.HashMap;
 import java.util.Map;

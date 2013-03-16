@@ -1,11 +1,12 @@
 /**
  * 
  */
-package org.uli.javagenerics;
+package org.uli.lookup;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.uli.lookup.V4WithGenericsAndEnum;
 
 
 /**
@@ -14,7 +15,7 @@ import org.junit.Test;
  */
 public class V4WithGenericsAndEnumTest {
     /**
-     * Test method for {@link org.uli.javagenerics.V4WithGenericsAndEnum#get(java.lang.String, java.lang.Object)}.
+     * Test method for {@link org.uli.lookup.V4WithGenericsAndEnum#get(java.lang.String, java.lang.Object)}.
      */
     @Test
     public void testGetString() {

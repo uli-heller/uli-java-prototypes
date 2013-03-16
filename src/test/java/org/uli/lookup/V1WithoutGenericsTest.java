@@ -1,11 +1,12 @@
 /**
  * 
  */
-package org.uli.javagenerics;
+package org.uli.lookup;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.uli.lookup.V1WithoutGenerics;
 
 
 /**
@@ -14,7 +15,7 @@ import org.junit.Test;
  */
 public class V1WithoutGenericsTest {
     /**
-     * Test method for {@link org.uli.javagenerics.V1WithoutGenerics#get(java.lang.String, java.lang.Object)}.
+     * Test method for {@link org.uli.lookup.V1WithoutGenerics#get(java.lang.String, java.lang.Object)}.
      */
     @Test
     public void testGetString() {
