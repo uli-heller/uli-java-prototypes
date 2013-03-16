@@ -11,7 +11,7 @@ import java.util.Map;
  * @author uli
  *
  */
-public class V4WithGenericsAndEnum {
+public class V4WithGenericsAndEnumEmulation {
     final Map<String, Object> map;
 
     static public class Wrapper<T> {
@@ -23,6 +23,7 @@ public class V4WithGenericsAndEnum {
         }
     }
 
+    // Unfortunately, there is no "enum Name<T>", so we have to use "class Name<T>"
     static public class Element<T> {
         public final static Element<String> STRING_ELEMENT = new Element<String>("String", new Wrapper<String>());
         public final static Element<Boolean> BOOLEAN_ELEMENT = new Element<Boolean>("Boolean", new Wrapper<Boolean>());
@@ -50,7 +51,7 @@ public class V4WithGenericsAndEnum {
         return result;
     }
 
-    private V4WithGenericsAndEnum() {
+    private V4WithGenericsAndEnumEmulation() {
         map = new HashMap<String, Object>();
         map.put(Element.STRING_ELEMENT.getName(), "a string");
         map.put(Element.BOOLEAN_ELEMENT.getName(), Boolean.valueOf(true));
@@ -58,10 +59,10 @@ public class V4WithGenericsAndEnum {
     }
 
     private static class LazyHolder {
-       private static final V4WithGenericsAndEnum INSTANCE = new V4WithGenericsAndEnum();
+       private static final V4WithGenericsAndEnumEmulation INSTANCE = new V4WithGenericsAndEnumEmulation();
     }
 
-    public static V4WithGenericsAndEnum getInstance() {
+    public static V4WithGenericsAndEnumEmulation getInstance() {
        return LazyHolder.INSTANCE;
     }
 }
