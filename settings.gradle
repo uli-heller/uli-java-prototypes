@@ -1,1 +1,1 @@
-include 'lookup'
+include 'lookup', 'view-scope'
