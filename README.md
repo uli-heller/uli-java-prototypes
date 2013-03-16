@@ -8,6 +8,13 @@ In diesem Git-Projekt arbeite ich an diversen Java-Prototypen.
 Grob sind das Test-Implementierungen von Dingen, die ich manchmal
 in meine "richtigen" Projekte einbaue, manchmal auch nicht.
 
+Kompilierung
+------------
+
+* Gradle Wrapper: `./gradlew check`
+
+* Vorinstalliertes Gradle: `gradle check`
+
 Git
 ---
 
