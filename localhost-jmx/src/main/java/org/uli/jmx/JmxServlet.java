@@ -18,8 +18,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JmxServlet extends HttpServlet {
     static private final String BINDING_ADDRESS="127.0.0.1";
+
+    Logger logger = LoggerFactory.getLogger(JmxServlet.class);
 
     /**
      * 
@@ -60,13 +65,17 @@ public class JmxServlet extends HttpServlet {
     }
 
     static public class LocalJMXPort {
+	Logger logger = LoggerFactory.getLogger(LocalJMXPort.class);
         int port;
         
         public LocalJMXPort(int port) {
+	    logger.debug("-> port={}");
             this.port = port;
+	    logger.debug("<-");
         }
 
         public jmxHandle start() {
+	    logger.debug("->");
             jmxHandle jmxHandle = new jmxHandle();
             try {
                 JMXConnectorServer rmiServer;
@@ -86,10 +95,12 @@ public class JmxServlet extends HttpServlet {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+	    logger.debug("<- jmxHandle={}", jmxHandle);
             return jmxHandle;
         }
 
         static class jmxHandle {
+	    Logger logger = LoggerFactory.getLogger(jmxHandle.class);
             JMXConnectorServer rmiServer;
             protected jmxHandle() {
                 rmiServer = null;
@@ -99,6 +110,7 @@ public class JmxServlet extends HttpServlet {
             }
             
             public synchronized void stop() {
+		logger.debug("->");
                 if (this.rmiServer != null) {
                     try {
                         this.rmiServer.stop();
@@ -108,6 +120,7 @@ public class JmxServlet extends HttpServlet {
                     }
                     this.rmiServer = null;
                 }
+		logger.debug("<-");
             }
         }
 
