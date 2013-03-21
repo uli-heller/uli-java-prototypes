@@ -34,34 +34,57 @@ public class JmxServlet extends HttpServlet {
     static LocalJMXPort.jmxHandle jmxHandle = null;;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	logger.debug("->");
+	response.setContentType("text/html");
         String pathInfo = request.getPathInfo();
+	PrintWriter out = response.getWriter();
         int port = 11223;
         if (pathInfo != null) {
+	    send(out, "Was soll das?");
+	} else {
             if (pathInfo.startsWith("/start")) {
                 String portString = request.getParameter("port");
                 if (portString != null) {
                     port = Integer.parseInt(portString);
                 }
                 start(port);
+		send(out, "Gestartet - port="+port);
             } else if (pathInfo.startsWith("/stop")) {
+		send(out, "Gestoppt");
                 stop();
             }
         }
+	logger.debug("<-");
+    }
+
+    private void send(PrintWriter out, String text) {
+        out.println("<HTML>");
+        out.println("<HEAD><TITLE>JmxServlet - Response</TITLE></HEAD>");
+        out.println("<BODY>");
+        out.println("<PRE>");
+	out.println(text);
+        out.println("</PRE>");
+        out.println("</BODY>");
+        out.println("</HTML>");
     }
 
     private synchronized void start(int port) {
+	logger.debug("-> {}", port);
         if (jmxHandle != null) {
             jmxHandle.stop();
         }
         LocalJMXPort localJMXPort = new LocalJMXPort(port);
         jmxHandle = localJMXPort.start();
+	logger.debug("<-");
     }
 
     private synchronized void stop() {
+	logger.debug("->");
         if (jmxHandle != null) {
             jmxHandle.stop();
             jmxHandle = null;
         }
+	logger.debug("<-");
     }
 
     static public class LocalJMXPort {
