@@ -50,8 +50,8 @@ public class JmxServlet extends HttpServlet {
                 start(port);
 		send(out, "Gestartet - port="+port);
             } else if (pathInfo.startsWith("/stop")) {
-		send(out, "Gestoppt");
                 stop();
+		send(out, "Gestoppt");
             }
         }
 	logger.debug("<-");
