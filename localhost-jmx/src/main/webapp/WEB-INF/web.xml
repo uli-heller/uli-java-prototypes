@@ -6,6 +6,10 @@
     id="WebApp_ID" version="3.0">
   <display-name>LOCALHOST-JMX</display-name>
 
+  <listener>
+    <listener-class>org.uli.jmx.JmxServlet</listener-class>
+  </listener>
+
   <!-- Welcome page list -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
