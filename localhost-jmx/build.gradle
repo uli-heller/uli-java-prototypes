@@ -16,3 +16,6 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+//clean.doLast {
+//}
