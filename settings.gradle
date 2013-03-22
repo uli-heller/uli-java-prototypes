@@ -1,1 +1,1 @@
-include 'lookup', 'view-scope'
+include 'lookup', 'view-scope', 'localhost-jmx'
