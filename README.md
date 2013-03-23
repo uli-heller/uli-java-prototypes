@@ -8,6 +8,14 @@ In diesem Git-Projekt arbeite ich an diversen Java-Prototypen.
 Grob sind das Test-Implementierungen von Dingen, die ich manchmal
 in meine "richtigen" Projekte einbaue, manchmal auch nicht.
 
+Diese Prototypen gibt's:
+
+* [localhost-jmx](localhost-jmx) ... JMX-Netzzugriff aktivieren für Localhost und ohne Setzen von Java-Properties
+
+* [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
+
+* [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
+
 Kompilierung
 ------------
 
