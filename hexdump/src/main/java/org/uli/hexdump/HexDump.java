@@ -1,5 +1,7 @@
 package org.uli.hexdump;
 
+import java.nio.charset.Charset;
+
 public class HexDump {
     static private final int DEFAULT_BYTES_PER_LINE=16;
     static private final String LINE_SEPARATOR=System.getProperty("line.separator");
@@ -64,7 +66,17 @@ public class HexDump {
     }
 
     private String text(byte n) {
-	return Character.toString((char)n);
+	String result;
+	if (isPrintable(n)) {
+	    result = new String(new byte[]{n});
+	} else {
+	    result = ".";
+	}
+	return result;
+    }
+
+    private boolean isPrintable(byte n) {
+	return n>=32 && n<127;
     }
 
     public static void main(String[] args) {
