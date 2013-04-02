@@ -2,15 +2,16 @@ package org.uli.hexdump;
 
 public class HexDump {
     static private final int DEFAULT_BYTES_PER_LINE=16;
+    static private final String LINE_SEPARATOR=System.getProperty("line.separator");
     private int bytesPerLine;
 
     static public String hexDump(byte[] array) {
 	return hexDump(array, 0, array.length);
     }
 
-    static public String hexDump(byte[] array, int start, int length) {
+    static public String hexDump(byte[] array, int offset, int length) {
 	HexDump hd = new HexDump();
-	return hd.dump(array, start, length);
+	return hd.dump(array, offset, length);
     }
 
     public HexDump() {
@@ -21,48 +22,49 @@ public class HexDump {
 	this.bytesPerLine = bytesPerLine;
     }
 
-    private String dump(byte[] array, int start, int length) {
-	StringBuilder sb = new StringBuilder(length*3+100);
+    private String dump(byte[] array, int offset, int length) {
+	StringBuffer sb = new StringBuffer(length*3+100);
 	int remainingLength = length;
-	int thisLineStart   = start;
+	int thisLineOffset   = offset;
 	while (remainingLength > 0) {
 	    StringBuffer hexBuffer = new StringBuffer(3*this.bytesPerLine);
 	    StringBuffer textBuffer = new StringBuffer(this.bytesPerLine);
-	    sb.append(address(thisLineStart));
-	    sb.append(": ");
+	    sb.append(address(thisLineOffset));
+	    sb.append(":");
 	    int i=0;
 	    for (; i<remainingLength && i<this.bytesPerLine; i++) {
-		if (i%4 == 0) {
-		  hexBuffer.append(" ");
-		}
-		hexBuffer.append(String.format("%02x", array[thisLineStart+i]));
-		textBuffer.append(text(array[thisLineStart+i]));
+		byte b = array[thisLineOffset+i];
+		append(hexBuffer, String.format("%02x", b), i);
+		textBuffer.append(text(b));
 	    }
 	    for ( ; i<this.bytesPerLine; i++) {
-		if (i%4 == 0) {
-		  hexBuffer.append(" ");
-		}
-		hexBuffer.append("  ");
+		append(hexBuffer, "  ", i);
 	    }
 	    sb.append(hexBuffer);
 	    sb.append("  '");
 	    sb.append(textBuffer);
 	    sb.append("'");
-	    sb.append(System.getProperty("line.separator"));
-	    thisLineStart += this.bytesPerLine;
+	    sb.append(LINE_SEPARATOR);
+	    thisLineOffset += this.bytesPerLine;
 	    remainingLength -= this.bytesPerLine;
 	}
 	return sb.toString();
     }
 
-    private String address(int start) {
-	return String.format("%08x", start);
+    private StringBuffer append(StringBuffer sb, String a, int i) {
+	if (i%4 == 0) {
+	    sb.append(" ");
+	}
+	sb.append(a);
+	return sb;
+    }
+
+    private String address(int offset) {
+	return String.format("%08x", offset);
     }
 
     private String text(byte n) {
-	byte[] b = new byte[1];
-	b[0] = n;
-	return new String(b);
+	return Character.toString((char)n);
     }
 
     public static void main(String[] args) {
