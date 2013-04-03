@@ -1,7 +1,5 @@
 package org.uli.hexdump;
 
-import java.nio.charset.Charset;
-
 public class HexDump {
     static private final int DEFAULT_BYTES_PER_LINE=16;
     static private final String LINE_SEPARATOR=System.getProperty("line.separator");
