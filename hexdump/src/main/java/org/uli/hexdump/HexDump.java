@@ -1,5 +1,8 @@
 package org.uli.hexdump;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class HexDump {
 
     static private final int DEFAULT_BYTES_PER_LINE = 16;
@@ -23,33 +26,39 @@ public class HexDump {
         this.bytesPerLine = bytesPerLine;
     }
 
-    private String dump(byte[] array, int offset, int length) {
+    public String dump(byte[] array) {
+        return this.dump(array, 0, array.length);
+    }
+
+    public String dump(byte[] array, int offset, int length) {
         StringBuffer sb = new StringBuffer(length * 3 + 100);
         int remainingLength = length;
         int thisLineOffset = offset;
         while (remainingLength > 0) {
-            StringBuffer hexBuffer = new StringBuffer(3 * this.bytesPerLine);
-            StringBuffer textBuffer = new StringBuffer(this.bytesPerLine);
-            sb.append(address(thisLineOffset));
-            sb.append(":");
-            int i = 0;
-            for (; i < remainingLength && i < this.bytesPerLine; i++) {
-                byte b = array[thisLineOffset + i];
-                append(hexBuffer, String.format("%02x", b), i);
-                textBuffer.append(text(b));
-            }
-            for (; i < this.bytesPerLine; i++) {
-                append(hexBuffer, "  ", i);
-            }
-            sb.append(hexBuffer);
-            sb.append("  '");
-            sb.append(textBuffer);
-            sb.append("'");
+            dumpLineResult dlr = this.dumpLine(array, thisLineOffset, remainingLength);
+            sb.append(dlr.line);
             sb.append(LINE_SEPARATOR);
-            thisLineOffset += this.bytesPerLine;
-            remainingLength -= this.bytesPerLine;
+            remainingLength = dlr.remainingLength;
+            thisLineOffset = dlr.nextOffset;
         }
         return sb.toString();
+    }
+
+    public List<String> dumpToList(byte[] array) {
+        return this.dumpToList(array, 0, array.length);
+    }
+
+    public List<String> dumpToList(byte[] array, int offset, int length) {
+        List<String> l = new LinkedList<String>();
+        int remainingLength = length;
+        int thisLineOffset = offset;
+        while (remainingLength > 0) {
+            dumpLineResult dlr = this.dumpLine(array, thisLineOffset, remainingLength);
+            l.add(dlr.line);
+            remainingLength = dlr.remainingLength;
+            thisLineOffset = dlr.nextOffset;
+        }
+        return l;
     }
 
     private StringBuffer append(StringBuffer sb, String a, int i) {
@@ -80,5 +89,45 @@ public class HexDump {
 
     public static void main(String[] args) {
         System.out.println(HexDump.hexDump(args[0].getBytes()));
+    }
+
+    private dumpLineResult dumpLine(byte[] array, int offset, int length) {
+        dumpLineResult dlr = new dumpLineResult("", offset, length);
+        StringBuffer sb = new StringBuffer();
+        if (length > 0) {
+            StringBuffer hexBuffer = new StringBuffer(3 * this.bytesPerLine);
+            StringBuffer textBuffer = new StringBuffer(this.bytesPerLine);
+            sb.append(address(offset));
+            sb.append(":");
+            int i = 0;
+            for (; i < length && i < this.bytesPerLine; i++) {
+                byte b = array[offset + i];
+                append(hexBuffer, String.format("%02x", b), i);
+                textBuffer.append(text(b));
+            }
+            for (; i < this.bytesPerLine; i++) {
+                append(hexBuffer, "  ", i);
+            }
+            sb.append(hexBuffer);
+            sb.append("  '");
+            sb.append(textBuffer);
+            sb.append("'");
+            dlr.line       = sb.toString();
+            dlr.nextOffset = offset + this.bytesPerLine;
+            dlr.remainingLength = length - this.bytesPerLine;
+        }
+        return dlr;
+    }
+
+    private static class dumpLineResult {
+        private String line;
+        private int nextOffset;
+        private int remainingLength;
+
+        private dumpLineResult(String line, int nextOffset, int remainingLength) {
+            this.line = line;
+            this.nextOffset = nextOffset;
+            this.remainingLength = remainingLength;
+        }
     }
 }
