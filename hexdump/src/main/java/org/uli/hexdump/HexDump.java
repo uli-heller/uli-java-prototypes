@@ -6,8 +6,13 @@ import java.util.List;
 public class HexDump {
 
     static private final int DEFAULT_BYTES_PER_LINE = 16;
+    static private final boolean DEFAULT_DUMP_HEX   = true;
+    static private final boolean DEFAULT_DUMP_TEXT  = true;
+    
     static private final String LINE_SEPARATOR = System.getProperty("line.separator");
     private int bytesPerLine;
+    private boolean fDumpHex;
+    private boolean fDumpText;
 
     static public String hexDump(byte[] array) {
         return hexDump(array, 0, array.length);
@@ -23,7 +28,17 @@ public class HexDump {
     }
 
     public HexDump(int bytesPerLine) {
+        this(bytesPerLine, DEFAULT_DUMP_HEX);
+    }
+    
+    public HexDump(int bytesPerLine, boolean fDumpHex) {
+        this(bytesPerLine, fDumpHex, DEFAULT_DUMP_TEXT);
+    }
+    
+    public HexDump(int bytesPerLine, boolean fDumpHex, boolean fDumpText) {
         this.bytesPerLine = bytesPerLine;
+        this.fDumpHex     = fDumpHex;
+        this.fDumpText    = fDumpText;
     }
 
     public String dump(byte[] array) {
@@ -102,16 +117,26 @@ public class HexDump {
             int i = 0;
             for (; i < length && i < this.bytesPerLine; i++) {
                 byte b = array[offset + i];
-                append(hexBuffer, String.format("%02x", b), i);
-                textBuffer.append(text(b));
+                if (this.fDumpHex) {
+                    append(hexBuffer, String.format("%02x", b), i);
+                }
+                if (this.fDumpText) {
+                    textBuffer.append(text(b));
+                }
             }
-            for (; i < this.bytesPerLine; i++) {
-                append(hexBuffer, "  ", i);
+            if (this.fDumpHex && this.fDumpText) {
+                for (; i < this.bytesPerLine; i++) {
+                    append(hexBuffer, "  ", i);
+                }
             }
-            sb.append(hexBuffer);
-            sb.append("  '");
-            sb.append(textBuffer);
-            sb.append("'");
+            if (this.fDumpHex) {
+                sb.append(hexBuffer);
+            }
+            if (this.fDumpText) {
+                sb.append("  '");
+                sb.append(textBuffer);
+                sb.append("'");
+            }
             dlr.line       = sb.toString();
             dlr.nextOffset = offset + this.bytesPerLine;
             dlr.remainingLength = length - this.bytesPerLine;

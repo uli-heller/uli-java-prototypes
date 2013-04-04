@@ -67,7 +67,26 @@ public class HexDumpTest {
     public void testDumpToList() {
         String oneToTwentyFour = "123456789012345612345678";
         List<String> hexDump = new HexDump().dumpToList(oneToTwentyFour.getBytes());
+        assertEquals(2, hexDump.size());
         assertEquals("00000000: 31323334 35363738 39303132 33343536  '1234567890123456'", hexDump.get(0));
         assertEquals("00000010: 31323334 35363738                    '12345678'",         hexDump.get(1));
+    }
+
+    @Test
+    public void testHexOnly() {
+        String oneToTwentyFour = "123456789012345612345678";
+        HexDump hd = new HexDump(32, true, false);
+        List<String> hexDump = hd.dumpToList(oneToTwentyFour.getBytes());
+        assertEquals(1, hexDump.size());
+        assertEquals("00000000: 31323334 35363738 39303132 33343536 31323334 35363738", hexDump.get(0));
+    }
+
+    @Test
+    public void testTextOnly() {
+        String oneToTwentyFour = "123456789012345612345678";
+        HexDump hd = new HexDump(32, false, true);
+        List<String> hexDump = hd.dumpToList(oneToTwentyFour.getBytes());
+        assertEquals(1, hexDump.size());
+        assertEquals("00000000:  '123456789012345612345678'", hexDump.get(0));
     }
 }
