@@ -1,1 +1,1 @@
-include 'lookup', 'view-scope', 'localhost-jmx', 'hexdump'
+include 'lookup', 'view-scope', 'localhost-jmx', 'hexdump', 'builder-with-subclasses'
