@@ -3,8 +3,6 @@ package org.uli.builder;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import java.util.List;
-
 public class RectangleTest {
     @Test
     public void basicTest () {
