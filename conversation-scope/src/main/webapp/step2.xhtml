@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+  <title>Second step</title>
+</h:head>
+<h:body>
+  <h:outputText value="Second step"></h:outputText>
+  <br />
+  <br />
+  <h:outputText value="#{conversationBean.counter}"></h:outputText>
+  <br />
+  <br />
+  <h:link outcome="/step3.xhtml" value="Go to step 3">
+    <f:param name="cid" value="#{conversationBean.conversation.id}" />
+  </h:link>
+</h:body>
+</html>
