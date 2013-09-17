@@ -16,6 +16,8 @@ Diese Prototypen gibt's:
 
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
+* [conversation-scope](conversation-scope) ... Verwendung vom CDI-Conversation-Scope
+
 Kompilierung
 ------------
 
