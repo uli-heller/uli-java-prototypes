@@ -4,12 +4,11 @@
     <appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
         <param name="File" value="logging-junit.log"/>
         <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-           <!-- The file to roll to, this is a fairly intelligent parameter, if the file
-                ends in .gz, it gzips it, based on the date stamp it rolls at that time, 
-                default is yyyy-MM-dd, (rolls at midnight)
-                See: http://logging.apache.org/log4j/companions/extras/apidocs/org/apache/log4j/rolling/TimeBasedRollingPolicy.html -->
-           <param name="FileNamePattern" value="ipl-picture-server.log.%d" />
+	  <param name="FileNamePattern" value="logging-junit.log.%d.%i" />
         </rollingPolicy>
+	<triggeringPolicy class="org.apache.log4j.rolling.SizeBasedTriggeringPolicy" >
+	  <param name="maxFileSize" value="10002"/>
+        </triggeringPolicy>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} [%t] %5p %C:%L-%M() - %m%n" />
         </layout>
