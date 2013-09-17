@@ -1,0 +1,29 @@
+apply plugin: "java"
+apply plugin: "war"
+apply plugin: "eclipse"
+apply plugin: "findbugs"
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.5'
+    compile 'org.slf4j:slf4j-log4j12:1.7.5'
+    compile 'commons-io:commons-io:2.4'
+            
+    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+    testCompile 'junit:junit:4.11'
+}
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+compileJava {
+    //options.compilerArgs << '-Werror'
+    //options.compilerArgs << '-Xlint:deprecation'
+}
