@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+  <appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
+    <param name="File" value="logging-every-second.log" />
+    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+      <param name="FileNamePattern"
+        value="logging-every-second.log.%d{yyyyMMdd_HHmmss}.%i" />
+    </rollingPolicy>
+      <triggeringPolicy
+        class="org.apache.log4j.rolling.SizeBasedTriggeringPolicy">
+        <param name="maxFileSize" value="10002" />
+      </triggeringPolicy>
+      <triggeringPolicy
+        class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+        <param name="FileNamePattern"
+          value="logging-every-second.log.%d{yyyyMMdd_HHmmss}.%i" />
+      </triggeringPolicy>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern"
+        value="%d{yyyy-MM-dd} %d{ABSOLUTE} [%t] %5p %C:%L-%M() - %m%n" />
+    </layout>
+  </appender>
+
+  <root>
+    <priority value="trace"></priority>
+    <appender-ref ref="file" />
+  </root>
+</log4j:configuration>
