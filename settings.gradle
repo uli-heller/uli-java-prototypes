@@ -1,1 +1,1 @@
-include 'lookup', 'view-scope', 'localhost-jmx', 'hexdump', 'builder-with-subclasses', 'conversation-scope'
+include 'lookup', 'view-scope', 'localhost-jmx', 'hexdump', 'builder-with-subclasses', 'conversation-scope', 'host-lookup', 'request-response-logger', 'spring-propertysource-environment', 'session-scope', 'time-and-size'
