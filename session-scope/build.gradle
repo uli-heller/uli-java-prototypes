@@ -1,5 +1,6 @@
 apply plugin: "java"
 apply plugin: "war"
+apply plugin: "jetty"
 //apply plugin: "eclipse"
 apply plugin: "eclipse-wtp"
 
@@ -33,3 +34,4 @@ repositories {
         url "http://repository.primefaces.org"
     }
 }
+
