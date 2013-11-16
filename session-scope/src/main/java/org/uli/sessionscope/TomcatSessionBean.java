@@ -4,7 +4,9 @@ package org.uli.sessionscope;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Component
 @Scope("session")
@@ -14,5 +16,11 @@ public class TomcatSessionBean {
 	HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
 	String sessionId = session.getId();
 	return sessionId;
+    }
+    public void invalidate() throws IOException {
+	FacesContext fCtx = FacesContext.getCurrentInstance();
+        ExternalContext ec = fCtx.getExternalContext();
+	ec.invalidateSession();
+	ec.redirect(ec.getRequestContextPath() + "/counter.xhtml");
     }
 }
