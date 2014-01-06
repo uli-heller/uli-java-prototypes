@@ -10,6 +10,8 @@ in meine "richtigen" Projekte einbaue, manchmal auch nicht.
 
 Diese Prototypen gibt's:
 
+* [jopt-simple](jopt-simple) ... Auswerten von Kommandozeilen-Optionen
+
 * [localhost-jmx](localhost-jmx) ... JMX-Netzzugriff aktivieren für Localhost und ohne Setzen von Java-Properties
 
 * [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
