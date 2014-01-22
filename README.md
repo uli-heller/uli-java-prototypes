@@ -16,6 +16,8 @@ Diese Prototypen gibt's:
 
 * [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
 
+* [jsf-view-scope](jsf-view-scope) ... Beispiel von JSF-View-Scope
+
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
 * [conversation-scope](conversation-scope) ... Verwendung vom CDI-Conversation-Scope
