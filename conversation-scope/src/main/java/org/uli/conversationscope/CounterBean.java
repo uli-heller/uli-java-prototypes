@@ -3,10 +3,7 @@ package org.uli.conversationscope;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
