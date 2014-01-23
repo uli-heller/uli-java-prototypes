@@ -4,6 +4,11 @@
     <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
   </listener>
 
+  <!-- Welcome page list -->
+  <welcome-file-list>
+    <welcome-file>hello.xhtml</welcome-file>
+  </welcome-file-list>
+
   <!-- JSF mapping -->
   <servlet>
     <servlet-name>faces</servlet-name>
