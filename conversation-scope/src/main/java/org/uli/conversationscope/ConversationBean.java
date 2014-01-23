@@ -18,25 +18,12 @@ public class ConversationBean implements Serializable {
   @Inject
   private Conversation conversation;
   
-  private int counter;
-  
-  // Will only be called once
-  // during bean initialization
-  @PostConstruct
-  public void init(){
-    counter = 0;
-  }
-  
   public void initConversation(){
     if (!FacesContext.getCurrentInstance().isPostback() 
       && conversation.isTransient()) {
       
       conversation.begin();
     }
-  }
-  
-  public void increment(){
-    counter++;
   }
   
   public String handleFirstStepSubmit(){
@@ -48,14 +35,6 @@ public class ConversationBean implements Serializable {
       conversation.end();
     }
     return "step1?faces-redirect=true";
-  }
-
-  public int getCounter() {
-    return counter;
-  }
-
-  public void setCounter(int counter) {
-    this.counter = counter;
   }
 
   public Conversation getConversation() {

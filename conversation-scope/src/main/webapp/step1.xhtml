@@ -12,10 +12,10 @@
   <br />
   <br />
   <h:form>
-    <h:outputText value="#{conversationBean.counter}"></h:outputText>
+    <h:outputText value="#{counterBean.counter}"></h:outputText>
     <br />
     <h:commandButton value="Increment" type="submit">
-      <f:ajax execute="@form" listener="#{conversationBean.increment}"
+      <f:ajax execute="@form" listener="#{counterBean.increment}"
         render="@form" />
     </h:commandButton>
     <br />
