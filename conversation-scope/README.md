@@ -5,6 +5,34 @@ This is a small prototype using conversation scope java beans
 in a web application. I'm testing the web application within
 Tomcat-7.0.37 at the moment.
 
+Building And Deploying The Project
+----------------------------------
+
+```
+cd conversation-scope
+../gradlew war
+cp build/libs/conversation-scope.war /opt/apache-7.0.37/webapps/.
+```
+
+Using The Showcase
+------------------
+
+After deploying the project, you're able to look at the showcase.
+The starting point is this: <http://localhost:8080/conversation-scope/>.
+It shows a static html page. The page has a couple of links.
+Each of this link is headed towards a servlet and contains specific
+initialization parameters for the java beans.
+
+The servlet
+
+* creates a new conversation
+* reads the parameters from the url
+* stores the parameters within the java beans
+* redirects the browser to a jsf page showing the content of the java beans
+
+The main benefit of the conversation scope is the fact that you can
+open multiple browser windows/tabs, each having a unique set of java beans.
+
 Issues
 ------
 

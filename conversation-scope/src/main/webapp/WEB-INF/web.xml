@@ -8,7 +8,7 @@
 
   <!-- Welcome page list -->
   <welcome-file-list>
-    <welcome-file>hello.xhtml</welcome-file>
+    <welcome-file>via-servlet.html</welcome-file>
   </welcome-file-list>
 
   <servlet>
