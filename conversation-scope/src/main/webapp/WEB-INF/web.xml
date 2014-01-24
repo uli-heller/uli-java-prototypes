@@ -12,8 +12,8 @@
   </welcome-file-list>
 
   <servlet>
-    <servlet-name>UTUCBServlet</servlet-name>
-    <servlet-class>org.uli.conversationscope.UrlToUserContextBeanServlet</servlet-class>
+    <servlet-name>UTBServlet</servlet-name>
+    <servlet-class>org.uli.conversationscope.UrlToBeansServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
@@ -31,7 +31,7 @@
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>UTUCBServlet</servlet-name>
+    <servlet-name>UTBServlet</servlet-name>
     <url-pattern>/START</url-pattern>
   </servlet-mapping>
 

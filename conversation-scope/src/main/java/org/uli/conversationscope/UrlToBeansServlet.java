@@ -19,7 +19,7 @@ import org.jboss.weld.context.ConversationContext;
  * @author uli
  *
  */
-public class UrlToUserContextBeanServlet extends HttpServlet {
+public class UrlToBeansServlet extends HttpServlet {
     private static final String PARAM_NAME_NAME="name";
     private static final String PARAM_NAME_LANGUAGE="language";
     private static final String PARAM_NAME_COUNTER="counter";
@@ -28,7 +28,6 @@ public class UrlToUserContextBeanServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Inject Conversation conversation;
-    //@Inject ConversationBean conversationBean;
     @Inject UserContextBean userContextBean;
     @Inject CounterBean counterBean;
     
