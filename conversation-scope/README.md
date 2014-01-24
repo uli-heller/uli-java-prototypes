@@ -22,7 +22,7 @@ So: You do have to specify the cid when doing redirects!
 
 ### Weld-1.1 vs. Weld 2.1
 
-When using Weld-1.1, I'm getting exceptions like this:
+When using Weld-1.1.17.Final, I'm getting exceptions like this:
 
 ```
 javax.enterprise.context.ContextNotActiveException: Conversation Context not active when method called on conversation Transient conversation
@@ -40,7 +40,7 @@ javax.enterprise.context.ContextNotActiveException: Conversation Context not act
 	javax.servlet.http.HttpServlet.service(HttpServlet.java:728)
 ```
 
-The exception doesn't happen when using Weld-2.1.2.
+The exception doesn't happen when using Weld-2.1.2.Final.
 
 ### Circular dependencies
 
