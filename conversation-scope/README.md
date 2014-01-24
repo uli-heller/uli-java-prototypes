@@ -44,7 +44,7 @@ The exception doesn't happen when using Weld-2.1.2.
 
 ### Circular dependencies
 
-Circular dependencies between java bean don't seem to raise any issue.
+Circular dependencies between java beans don't seem to raise any issue.
 
 ```
 // within CounterBean
