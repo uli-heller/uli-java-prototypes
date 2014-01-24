@@ -114,3 +114,62 @@ Within web.xml, I've used this definition for the BeanManager:
 
 However, it seems that this isn't strictly required, at least as long
 as you don't use the BeanManager directly within your implementation.
+
+### WeldInitialListener  and WeldTerminalListener within web.xml
+
+According to <http://docs.jboss.org/weld/reference/2.1.2.Final/en-US/html/environments.html#d0e5555>, you should add the WeldInitialListener and the
+WeldTerminalListener to web.xml.
+
+For me, this doesn't work out. I'm getting exceptions like these when
+starting Tomcat:
+
+```
+Jan 24, 2014 8:35:59 AM org.apache.catalina.core.StandardContext listenerStart
+SEVERE: Exception sending context initialized event to listener instance of class org.jboss.weld.servlet.WeldInitialListener
+java.lang.IllegalStateException: Singleton is not set. Is your Thread.currentThread().getContextClassLoader() set correctly?
+	at org.jboss.weld.bootstrap.api.helpers.IsolatedStaticSingletonProvider$IsolatedStaticSingleton.get(IsolatedStaticSingletonProvider.java:47)
+	at org.jboss.weld.Container.instance(Container.java:55)
+	at org.jboss.weld.Weld.getBeanManager(Weld.java:110)
+	at org.jboss.weld.Weld.getBeanManager(Weld.java:45)
+	at org.jboss.weld.servlet.WeldInitialListener.contextInitialized(WeldInitialListener.java:85)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4797)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5291)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:633)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:977)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1655)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:166)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1146)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:701)
+Jan 24, 2014 8:36:00 AM org.apache.catalina.core.StandardContext startInternal
+SEVERE: Error listenerStart
+Jan 24, 2014 8:36:00 AM org.apache.catalina.core.StandardContext startInternal
+SEVERE: Context [/conversation-scope] startup failed due to previous errors
+Jan 24, 2014 8:36:00 AM org.apache.catalina.core.StandardContext listenerStop
+SEVERE: Exception sending context destroyed event to listener instance of class org.jboss.weld.servlet.WeldInitialListener
+java.lang.NullPointerException
+	at org.jboss.weld.servlet.WeldInitialListener.contextDestroyed(WeldInitialListener.java:120)
+	at org.apache.catalina.core.StandardContext.listenerStop(StandardContext.java:4837)
+	at org.apache.catalina.core.StandardContext.stopInternal(StandardContext.java:5483)
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:232)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:160)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:901)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:877)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:633)
+	at org.apache.catalina.startup.HostConfig.deployWAR(HostConfig.java:977)
+	at org.apache.catalina.startup.HostConfig$DeployWar.run(HostConfig.java:1655)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:166)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1146)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:701)
+```
+
+Using the old listener documented in Weld-1.1 <http://docs.jboss.org/weld/reference/1.1.16.Final/en-US/html/environments.html#d0e5228>, everything seems to work OK.
+
