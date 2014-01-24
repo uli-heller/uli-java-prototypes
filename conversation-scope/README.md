@@ -82,7 +82,7 @@ Circular dependencies between java beans don't seem to raise any issue.
 @Inject CounterBean counterBean;
 ```
 
-### context.xml
+### BeanManager within context.xml
 
 In the beginning, I've used this context.xml:
 
@@ -95,6 +95,21 @@ In the beginning, I've used this context.xml:
   <!-- Uncomment to enable injection into Servlet -->
   <!--<Listener className="org.jboss.weld.environment.tomcat.WeldLifecycleListe
 </Context>
+```
+
+However, it seems that this isn't strictly required, at least as long
+as you don't use the BeanManager directly within your implementation.
+
+### BeanManager within web.xml
+
+Within web.xml, I've used this definition for the BeanManager:
+
+```
+ <resource-env-ref>
+        <description>Object factory for the CDI Bean Manager</description>
+        <resource-env-ref-name>BeanManager</resource-env-ref-name>
+        <resource-env-ref-type>javax.enterprise.inject.spi.BeanManager</resource-env-ref-type>
+  </resource-env-ref>
 ```
 
 However, it seems that this isn't strictly required, at least as long
