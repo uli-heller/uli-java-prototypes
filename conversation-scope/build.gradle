@@ -5,7 +5,7 @@ apply plugin: "eclipse-wtp"
 
 dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.0.+'
-    compile 'org.jboss.weld.servlet:weld-servlet:+' // 1.1.17.Final 2.1.2.Final
+    compile 'org.jboss.weld.servlet:weld-servlet:2.1.2.Final'
     compile 'org.glassfish:javax.faces:2.1.21'
     testCompile 'junit:junit:4.11'
 }
