@@ -81,3 +81,21 @@ Circular dependencies between java beans don't seem to raise any issue.
 // within UserContextBean
 @Inject CounterBean counterBean;
 ```
+
+### context.xml
+
+In the beginning, I've used this context.xml:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/os">
+  <!-- disable storage of sessions across restarts -->
+  <Manager pathname=""/>
+  <Resource auth="Container" factory="org.jboss.weld.resources.ManagerObjectFac
+  <!-- Uncomment to enable injection into Servlet -->
+  <!--<Listener className="org.jboss.weld.environment.tomcat.WeldLifecycleListe
+</Context>
+```
+
+However, it seems that this isn't strictly required, at least as long
+as you don't use the BeanManager directly within your implementation.
