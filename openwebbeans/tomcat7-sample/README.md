@@ -19,4 +19,13 @@ Can be fixed by adding the mojarra jar to "build.gradle":
 
 ### Absent Code attribute in method that is not native or abstract in class file javax/enterprise/inject/IllegalProductException
 
-TBD
+Can be fixed by using myfaces instead of mojarra:
+
+* Mojarra
+
+     compile 'org.glassfish:javax.faces:2.2.5'
+
+* Myfaces
+
+     compile 'org.apache.myfaces.core:myfaces-api:2.1.13'
+     compile 'org.apache.myfaces.core:myfaces-impl:2.1.13'

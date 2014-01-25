@@ -14,8 +14,12 @@ dependencies {
    compile 'org.apache.openwebbeans:openwebbeans-ee-common:1.2.1'
    compile 'org.apache.openwebbeans:openwebbeans-tomcat7:1.2.1'
    compile 'org.apache.openwebbeans:openwebbeans-jsf:1.2.1'
-   compile 'javax:javaee-api:6.0'
-   compile 'org.glassfish:javax.faces:2.2.5'
+   compile 'org.apache.openejb:javaee-api:6.0-5'
+   //compile 'org.glassfish:javax.faces:2.2.5'
+   compile 'org.apache.myfaces.core:myfaces-api:2.1.13'
+   compile 'org.apache.myfaces.core:myfaces-impl:2.1.13'
+   runtime 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-owb:0.5'
+   runtime 'org.apache.deltaspike.cdictrl:deltaspike-cdictrl-api:0.5'
 }
 
 repositories {
