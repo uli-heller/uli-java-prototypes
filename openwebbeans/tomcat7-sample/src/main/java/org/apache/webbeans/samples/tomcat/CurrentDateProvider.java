@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 public class CurrentDateProvider
 {
-    private @Inject Principal principal;
+    //    private @Inject Principal principal;
     
     @Produces
     public Date getCurrentDate()
@@ -34,8 +34,8 @@ public class CurrentDateProvider
         return new Date();
     }
     
-    public Principal getPrincipal()
-    {
-        return principal;
-    }
+    //public Principal getPrincipal()
+    //{
+    //    return principal;
+    //}
 }

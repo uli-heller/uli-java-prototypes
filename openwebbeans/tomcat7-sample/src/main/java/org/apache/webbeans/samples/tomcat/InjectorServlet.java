@@ -41,7 +41,7 @@ public class InjectorServlet extends HttpServlet
     {
         PrintWriter writer = resp.getWriter();
         writer.write("==================Injection of Bean Instance into Servlet==================" + "\n\n");
-        writer.write("Caller Principal name injection into DateProvider instance : " + dateProvider.getPrincipal().getName() + "\n\n");
+        writer.write("Caller Principal name injection into DateProvider instance : " + /* dateProvider.getPrincipal().getName() + */ "\n\n");
         writer.write("Current Date : " + dateProvider.toString());
         writer.write("\n");        
         

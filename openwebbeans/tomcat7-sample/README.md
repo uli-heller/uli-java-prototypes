@@ -29,3 +29,7 @@ Can be fixed by using myfaces instead of mojarra:
 
      compile 'org.apache.myfaces.core:myfaces-api:2.1.13'
      compile 'org.apache.myfaces.core:myfaces-impl:2.1.13'
+
+### Absent Code attribute in method that is not native or abstract in class file javax/enterprise/util/AnnotationLiteral
+
+TBD
