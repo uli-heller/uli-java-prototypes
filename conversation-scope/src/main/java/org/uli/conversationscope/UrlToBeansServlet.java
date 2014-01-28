@@ -6,14 +6,10 @@ package org.uli.conversationscope;
 import java.io.IOException;
 
 import javax.enterprise.context.Conversation;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jboss.weld.Container;
-import org.jboss.weld.context.ConversationContext;
 
 /**
  * @author uli
