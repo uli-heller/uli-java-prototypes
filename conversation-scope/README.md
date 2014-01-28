@@ -173,3 +173,47 @@ java.lang.NullPointerException
 
 Using the old listener documented in Weld-1.1 <http://docs.jboss.org/weld/reference/1.1.16.Final/en-US/html/environments.html#d0e5228>, everything seems to work OK.
 
+### WELD-001408: Unsatisfied dependencies for type UserContextBean
+
+When deploying the web application "conversation-scope.war" into
+a tomcat of a customer of mine, exceptions like this show up:
+
+```
+Jan 28, 2014 7:54:35 AM org.apache.catalina.core.StandardContext loadOnStartup
+SEVERE: Servlet /conversation-scope threw load() exception
+org.jboss.weld.exceptions.DeploymentException: WELD-001408: Unsatisfied dependencies for type UserContextBean with qualifiers @Default
+  at injection point [BackedAnnotatedField] @Inject org.uli.conversationscope.UrlToBeansServlet.userContextBean
+  at org.uli.conversationscope.UrlToBeansServlet.userContextBean(UrlToBeansServlet.java:0)
+
+	at org.jboss.weld.bootstrap.Validator.validateInjectionPointForDeploymentProblems(Validator.java:368)
+	at org.jboss.weld.bootstrap.Validator.validateInjectionPoint(Validator.java:289)
+	at org.jboss.weld.bootstrap.Validator.validateProducer(Validator.java:426)
+	at org.jboss.weld.injection.producer.InjectionTargetService.validateProducer(InjectionTargetService.java:35)
+	at org.jboss.weld.manager.InjectionTargetFactoryImpl.createInjectionTarget(InjectionTargetFactoryImpl.java:80)
+	at org.jboss.weld.manager.InjectionTargetFactoryImpl.createInjectionTarget(InjectionTargetFactoryImpl.java:69)
+...
+```
+
+After some analysis, it turns out that this error happens only when the war file is located
+outside of the host's appbase, i.e. you have a file .../conf/Catalina/localhost/conversation-scope.xml
+similar to this one:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="/tmp/conversation-scope.war" 
+         path="/conversation-scope"
+         unpackWAR="true"
+>
+</Context>
+```
+
+I've reproduces the error with
+
+* tomcat-7.0.42
+* tomcat-7.0.47
+
+The error doesn't happen with
+
+* tomcat-7.0.50
+
+In order to work OK with tomcat-7.0.50, be sure to set `unpackWAR="true"` for the context!
