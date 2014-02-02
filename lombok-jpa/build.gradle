@@ -1,0 +1,26 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+
+String eclipseLinkVersion = '2.4.1';
+String h2Version = '1.3.175';
+
+dependencies {
+   compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
+   compile "org.projectlombok:lombok:1.12.4"
+   testCompile "com.h2database:h2:${h2Version}"
+   testCompile "junit:junit:4.11"
+   //runtime group: 'org.apache.derby',        name: 'derbyclient',                 version: derbyVersion
+
+    // compile group: 'org.eclipse.persistence', name: '...', version: eclipseLinkVersion
+
+    runtime group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.1.4.Final'
+}
+
+repositories {
+    mavenCentral()
+}
+
+clean.doLast {
+  ant.delete(file: 'h2Db.h2.db');
+  ant.delete(file: 'h2Db.trace.db');
+}
