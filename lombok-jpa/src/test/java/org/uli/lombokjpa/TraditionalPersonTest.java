@@ -23,12 +23,11 @@ import org.junit.Test;
  * @author uli
  *
  */
-public class PersonTest {
+public class TraditionalPersonTest {
     private static final String PERSISTENCE_UNIT_NAME = "jpa";
     private static EntityManagerFactory entityManagerFactory;
 
-    private static Map<Integer, LombokPerson> lombokPersons = new HashMap<Integer, LombokPerson>();
-    private static Map<Integer, TraditionalPerson> traditionalPersons = new HashMap<Integer, TraditionalPerson>();
+    private static Map<Integer, TraditionalPerson> persons = new HashMap<Integer, TraditionalPerson>();
 
     @BeforeClass
     static public void initEm() {
@@ -50,17 +49,17 @@ public class PersonTest {
     @Before
     public void setUp() throws Exception {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query = entityManager.createQuery("select p from LombokPerson p");
+        Query query = entityManager.createQuery("select p from TraditionalPerson p");
 
         if (query.getResultList().isEmpty()) {
-            // Create new lombok persons
-            entityManager.getTransaction().begin();
+	    entityManager.getTransaction().begin();
+            // Create new persons
             for (int i=0; i<40; i++) {
-                LombokPerson person = new LombokPerson();
+                TraditionalPerson person = new TraditionalPerson();
                 person.setFirstName("firstName-"+i);
                 person.setLastName("lastName-"+i);
                 entityManager.persist(person);
-                lombokPersons.put(person.getPersonId(), person);
+                persons.put(person.getPersonId(), person);
             }
             entityManager.getTransaction().commit();
         }
@@ -70,18 +69,18 @@ public class PersonTest {
     @Test
     public void testNotEmpty() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query = entityManager.createQuery("select p from LombokPerson p");
+        Query query = entityManager.createQuery("select p from TraditionalPerson p");
         @SuppressWarnings("unchecked")
         List<Object> resultList = query.getResultList();
         assertFalse(resultList.isEmpty());
-        assertEquals(lombokPersons.size(), resultList.size());
+        assertEquals(persons.size(), resultList.size());
         entityManager.close();
     }
     
     @Test
     public void testFind() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        for (LombokPerson p : lombokPersons.values()) {
+        for (TraditionalPerson p : persons.values()) {
             Integer personId = p.getPersonId();
             TraditionalPerson dbPerson = entityManager.find(TraditionalPerson.class, personId);
             assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
@@ -94,7 +93,7 @@ public class PersonTest {
     @Test
     public void testGetReference() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        for (LombokPerson p : lombokPersons.values()) {
+        for (TraditionalPerson p : persons.values()) {
             Integer personId = p.getPersonId();
             TraditionalPerson dbPerson = entityManager.getReference(TraditionalPerson.class, personId);
             assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());

@@ -16,7 +16,7 @@ import lombok.ToString;
 @Table(name="PERSON")
 @EqualsAndHashCode
 @ToString
-public class Person {
+public class LombokPerson {
     @Id
     @Column(name="ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class Person {
     @Getter @Setter
     private String lastName;
     
-    public Person() {
+    public LombokPerson() {
         ;
     }
 
