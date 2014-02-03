@@ -4,7 +4,7 @@ apply plugin: 'eclipse'
 String slf4jVersion='1.7.5';
 //String logbackVersion='1.0.11';
 String junitVersion='4.11';
-String springVersion='3.2.2.RELEASE';
+String springVersion='4.0.1.RELEASE';
 
 dependencies {
      compile "org.slf4j:slf4j-api:${slf4jVersion}"
