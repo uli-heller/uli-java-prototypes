@@ -1,7 +1,7 @@
 apply plugin: "java"
 apply plugin: "eclipse"
 
-String hibernateVersion = '4.1.4.Final';
+String hibernateVersion = '4.1.12.Final'; // 4.1.0.Final, 4.1.4.Final are OK too
 String h2Version        = '1.3.175';
 String junitVersion     = '4.11';
 String lombokVersion    = '1.12.4';
