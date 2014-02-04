@@ -36,7 +36,7 @@ public class LombokPersonTest {
         persistenceProperties.put("javax.persistence.jdbc.url","jdbc:h2:h2Db"); 
         entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, persistenceProperties);
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query delete = entityManager.createQuery("delete from TraditionalPerson p");
+        Query delete = entityManager.createQuery("delete from LombokPerson p");
 	entityManager.getTransaction().begin();
         delete.executeUpdate();
         entityManager.getTransaction().commit();
