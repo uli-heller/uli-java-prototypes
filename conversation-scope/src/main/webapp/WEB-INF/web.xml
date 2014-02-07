@@ -38,16 +38,6 @@
     <url-pattern>/START</url-pattern>
   </servlet-mapping>
 
-  <filter>
-    <display-name>JsessionId Filter</display-name>
-    <filter-name>uliFilter</filter-name>
-    <filter-class>org.uli.conversationscope.EnforceUrlFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>uliFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-
   <session-config>
     <session-timeout>240</session-timeout>
     <!-- <tracking-mode>URL</tracking-mode> -->
