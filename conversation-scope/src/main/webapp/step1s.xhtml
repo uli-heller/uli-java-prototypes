@@ -24,6 +24,8 @@
   <ul>
     <li>Name: <h:outputText value="#{userContextBean.name}"></h:outputText></li>
     <li>Language: <h:outputText value="#{userContextBean.language}"></h:outputText></li>
+    <li>Session id: <h:outputText value="#{session.id}"></h:outputText></li>
+    <li>Cookie: <h:outputText value="#{cookie['JSESSIONID'].value}"></h:outputText></li>
   </ul>
 </h:body>
 </html>

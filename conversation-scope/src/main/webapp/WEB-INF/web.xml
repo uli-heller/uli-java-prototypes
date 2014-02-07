@@ -48,4 +48,9 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <session-config>
+    <session-timeout>240</session-timeout>
+    <!-- <tracking-mode>URL</tracking-mode> -->
+  </session-config>
+
 </web-app>
