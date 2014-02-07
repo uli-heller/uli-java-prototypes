@@ -217,3 +217,27 @@ The error doesn't happen with
 * tomcat-7.0.50
 
 In order to work OK with tomcat-7.0.50, be sure to set `unpackWAR="true"` for the context!
+
+### Blocking of 3rd-Party-Cookies
+
+Activate blocking of 3rd-party-cookies in your browser. For Safari, this is the default behavior.
+For Chrome, do this:
+
+* Einstellungen (Settings?)
+* Erweiterte Einstellungen (Extended Settings?)
+* Datenschutz - Inhaltseinstellungen (Security? - Content Settings?)
+* Activate: Cookies - Drittanbieter-Cookies und Websitedaten blockieren (Block 3rd-party-cookies ?)
+
+Within /etc/hosts, configure this:
+
+    127.0.0.1       www.dp.biz
+
+Now head your browser to <http://localhost:8080/conversation-scope>.
+
+With the initial implementation, the browser displays something like this:
+
+![KO](doc/ko.png)
+
+The fixed implementation leads to this display:
+
+![OK](doc/ok.png)
