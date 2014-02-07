@@ -37,6 +37,7 @@ public class UrlToBeansServlet extends HttpServlet {
         userContextBean.setLanguage(language);
         counterBean.setCounter(Integer.valueOf(counter));
         String url = req.getContextPath() + "/step1s.xhtml?cid="+conversation.getId();
+        url = res.encodeRedirectURL(url);
         res.sendRedirect(url);
     }
 
