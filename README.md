@@ -10,7 +10,11 @@ in meine "richtigen" Projekte einbaue, manchmal auch nicht.
 
 Diese Prototypen gibt's:
 
+* [conversation-scope](conversation-scope) ... Verwendung vom CDI-Conversation-Scope
+
 * [jopt-simple](jopt-simple) ... Auswerten von Kommandozeilen-Optionen
+
+* [jsf-view-scope](jsf-view-scope) ... Beispiel von JSF-View-Scope
 
 * [localhost-jmx](localhost-jmx) ... JMX-Netzzugriff aktivieren für Localhost und ohne Setzen von Java-Properties
 
@@ -20,11 +24,10 @@ Diese Prototypen gibt's:
 
 * [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
 
-* [jsf-view-scope](jsf-view-scope) ... Beispiel von JSF-View-Scope
+* [resultset](resultset) ... Wandlung eines JDBC-ResultSets in List<Entity>
 
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
-* [conversation-scope](conversation-scope) ... Verwendung vom CDI-Conversation-Scope
 
 Kompilierung
 ------------
