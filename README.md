@@ -14,6 +14,10 @@ Diese Prototypen gibt's:
 
 * [localhost-jmx](localhost-jmx) ... JMX-Netzzugriff aktivieren für Localhost und ohne Setzen von Java-Properties
 
+* [lombok-jpa](lombok-jpa) ... JPA in Verbindung mit Lombok
+
+* [lombok-jpa](lombok-spring-jpa) ... JPA und Spring in Verbindung mit Lombok
+
 * [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
 
 * [jsf-view-scope](jsf-view-scope) ... Beispiel von JSF-View-Scope
