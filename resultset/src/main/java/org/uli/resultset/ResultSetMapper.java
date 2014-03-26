@@ -4,8 +4,6 @@ package org.uli.resultset;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -17,10 +15,9 @@ import javax.persistence.Entity;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-public class ResultSetMapper<T> {
+public class ResultSetMapper {
 
-    @SuppressWarnings("unchecked")
-    public List<T> mapResultSetToObject(ResultSet rs, Class outputClass) {
+    public <T> List<T> mapResultSetToObject(ResultSet rs, Class<T> outputClass) {
         List<T> outputList = null;
         try {
             // make sure resultset is not null

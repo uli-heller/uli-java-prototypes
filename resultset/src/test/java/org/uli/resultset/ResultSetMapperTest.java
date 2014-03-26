@@ -8,10 +8,8 @@ import static org.junit.Assert.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -72,7 +70,7 @@ public class ResultSetMapperTest {
         Connection c = dataSource.getConnection();
         PreparedStatement ps = c.prepareStatement("select * from person order by id");
         ResultSet rs = ps.executeQuery();
-        ResultSetMapper<Person> rsm = new ResultSetMapper<Person>();
+        ResultSetMapper rsm = new ResultSetMapper();
         List<Person> thesePersons = rsm.mapResultSetToObject(rs, Person.class);
         assertTrue(thesePersons.size() > 0);
         assertEquals(persons, thesePersons);
