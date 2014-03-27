@@ -66,7 +66,7 @@ public class ResultSetMapperTest {
     }
 
     @Test
-    public void testPersons() throws Exception {
+    public void testPerson() throws Exception {
         Connection c = dataSource.getConnection();
         PreparedStatement ps = c.prepareStatement("select * from person order by id");
         ResultSet rs = ps.executeQuery();
@@ -74,5 +74,23 @@ public class ResultSetMapperTest {
         List<Person> thesePersons = rsm.mapResultSetToObject(rs, Person.class);
         assertTrue(thesePersons.size() > 0);
         assertEquals(persons, thesePersons);
+    }
+
+    @Test
+    public void testPersonWithoutAnnotations() throws Exception {
+        Connection c = dataSource.getConnection();
+        PreparedStatement ps = c.prepareStatement("select id PERSONID, last_name LASTNAME, first_name FIRSTNAME from person order by id");
+        ResultSet rs = ps.executeQuery();
+        ResultSetMapper rsm = new ResultSetMapper();
+        List<PersonWithoutAnnotations> thesePersons = rsm.mapResultSetToObject(rs, PersonWithoutAnnotations.class);
+        assertTrue(thesePersons.size() > 0);
+        assertEquals(persons.size(), thesePersons.size());
+        for (int i=0; i<persons.size(); i++) {
+            Person p = persons.get(i);
+            PersonWithoutAnnotations pwa = thesePersons.get(i);
+            assertEquals(p.getPersonId(), pwa.getPersonId());
+            assertEquals(p.getFirstName(), pwa.getFirstName());
+            assertEquals(p.getLastName(), pwa.getLastName());
+        }
     }
 }
