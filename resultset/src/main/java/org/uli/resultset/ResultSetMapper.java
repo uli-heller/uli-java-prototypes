@@ -30,11 +30,9 @@ public class ResultSetMapper {
                     Field[] fields = outputClass.getDeclaredFields();
                     while (rs.next()) {
                         T bean = (T) outputClass.newInstance();
-                        for (int _iterator = 0; _iterator < rsmd
-                                    .getColumnCount(); _iterator++) {
+                        for (int _iterator = 0; _iterator < rsmd.getColumnCount(); _iterator++) {
                             // getting the SQL column name
-                            String columnName = rsmd
-                                        .getColumnName(_iterator + 1);
+                            String columnName = rsmd.getColumnName(_iterator + 1);
                             // reading the value of the SQL column
                             Object columnValue = rs.getObject(_iterator + 1);
                             // iterating over outputClass attributes to check if
@@ -42,13 +40,9 @@ public class ResultSetMapper {
                             // matching 'name' value
                             for (Field field : fields) {
                                 if (field.isAnnotationPresent(Column.class)) {
-                                    Column column = field
-                                                .getAnnotation(Column.class);
-                                    if (column.name().equalsIgnoreCase(
-                                                columnName)
-                                                && columnValue != null) {
-                                        BeanUtils.setProperty(bean, field
-                                                    .getName(), columnValue);
+                                    Column column = field.getAnnotation(Column.class);
+                                    if (column.name().equalsIgnoreCase(columnName) && columnValue != null) {
+                                        BeanUtils.setProperty(bean, field.getName(), columnValue);
                                         break;
                                     }
                                 }
