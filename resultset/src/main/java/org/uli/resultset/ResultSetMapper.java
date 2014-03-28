@@ -2,6 +2,8 @@
 // http://www.codeproject.com/Tips/372152/Mapping-JDBC-ResultSet-to-Object-using-Annotations
 package org.uli.resultset;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
@@ -45,7 +47,8 @@ public class ResultSetMapper {
                                     name = column.name();
                                 }
                                 if (name.equalsIgnoreCase(columnLabel)) {
-                                    BeanUtils.setProperty(bean, field.getName(), columnValue);
+                                    //BeanUtils.setProperty(bean, field.getName(), columnValue);
+                                    this.setProperty(bean, field.getName(), columnValue);
                                     break;
                                 }
                             }
@@ -67,7 +70,18 @@ public class ResultSetMapper {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IntrospectionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return outputList;
+    }
+    
+    private final void setProperty(Object bean, String name, Object value) throws IntrospectionException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        PropertyDescriptor pd = new PropertyDescriptor(name, bean.getClass());
+        pd.getWriteMethod().invoke(bean, value);
     }
 }
