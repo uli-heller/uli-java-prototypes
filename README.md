@@ -24,6 +24,8 @@ Diese Prototypen gibt's:
 
 * [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
 
+* [perfidix-microbenchmark](perfidix-microbenchmark) ... Ausführungszeiten und Speicherverbrauch abstoppen mit Perfidix
+
 * [resultset](resultset) ... Wandlung eines JDBC-ResultSets in List<Entity>
 
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans

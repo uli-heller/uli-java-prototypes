@@ -1,0 +1,34 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+
+String commonsBeanUtilsVersion  = '1.9.1';
+String junitVersion             = '4.11';
+String perfidixVersion          = '3.6.9';
+
+dependencies {
+   compile     "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
+   testCompile "junit:junit:${junitVersion}"
+   testCompile "org.perfidix:perfidix:${perfidixVersion}"
+}
+
+repositories {
+    mavenCentral()
+}
+
+clean.doLast {
+    ;
+}
+
+task runBenchmark(type: JavaExec, dependsOn: test) {
+    def vmVer = System.getProperty('java.version')
+    def osName = System.getProperty('os.name').replaceAll('\\s','')
+    def osArch = System.getProperty('os.arch')
+    def fnameBase = "ver${version}_${osName}-${osArch}_jvm${vmVer}"
+    def benchMarksDir = "${project.buildDir}/benchmarks"
+    ant.mkdir(dir: benchMarksDir)
+    def outStream = new FileOutputStream("${benchMarksDir}/${fnameBase}-out.txt")
+    standardOutput = outStream
+    main = 'org.uli.perfidix.MyBenchmark'
+    classpath = sourceSets.test.runtimeClasspath
+    //args = ['--saveResults', "${benchMarksDir}/${fnameBase}.json", '-Jmode=-server,-client']
+}
