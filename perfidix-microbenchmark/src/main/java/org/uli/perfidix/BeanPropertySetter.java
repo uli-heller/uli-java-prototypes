@@ -3,6 +3,11 @@
 package org.uli.perfidix;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -16,8 +21,64 @@ public class BeanPropertySetter {
     public BeanPropertySetter(Implementation impl) {
         this.impl = impl;
     }
+
+    private static class methodCacheKey {
+        final private Class clazz;
+        final private String propertyName;
+        
+        public methodCacheKey(final Class clazz, final String propertyName) {
+            this.clazz = clazz;
+            this.propertyName = propertyName;
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+            result = prime * result + ((propertyName == null) ? 0 : propertyName.hashCode());
+            return result;
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null) return false;
+            if (getClass() != obj.getClass()) return false;
+            methodCacheKey other = (methodCacheKey) obj;
+            if (clazz == null) {
+                if (other.clazz != null) return false;
+            } else if (!clazz.equals(other.clazz)) return false;
+            if (propertyName == null) {
+                if (other.propertyName != null) return false;
+            } else if (!propertyName.equals(other.propertyName)) return false;
+            return true;
+        }
+    }
+    
+    static final ConcurrentMap<methodCacheKey, Method> methodCache = new ConcurrentHashMap<methodCacheKey, Method>();
     
     public enum Implementation {
+        JAVA_METHOD_CACHE {
+            @Override
+            public void setProperty(Object bean, String name, Object value) throws Exception {
+                Class<?> clazz = bean.getClass();
+                methodCacheKey mck = new methodCacheKey(clazz, name);
+                Method m = methodCache.get(mck);
+                if (m == null) {
+                    PropertyDescriptor pd = new PropertyDescriptor(name, bean.getClass());
+                    m = pd.getWriteMethod();
+                    methodCache.put(mck, m);
+                }
+                m.invoke(bean, value);
+            }
+        },
         JAVA {
             @Override
             public void setProperty(Object bean, String name, Object value) throws Exception {
