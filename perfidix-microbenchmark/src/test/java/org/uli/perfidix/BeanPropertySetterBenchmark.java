@@ -4,6 +4,7 @@
 package org.uli.perfidix;
 
 import org.perfidix.annotation.Bench;
+import org.uli.perfidix.BeanPropertySetter.Implementation;
 
 /**
  * @author uli
@@ -13,7 +14,7 @@ public class BeanPropertySetterBenchmark {
     @Bench
     public void standardJava() throws Exception {
         Person p = new Person();
-        BeanPropertySetter bps = new BeanPropertySetter();
+        BeanPropertySetter bps = new BeanPropertySetter(Implementation.JAVA);
         bps.setProperty(p, "personId", 1);
         bps.setProperty(p, "firstName", "Uli");
         bps.setProperty(p, "lastName", "Heller");
@@ -22,18 +23,18 @@ public class BeanPropertySetterBenchmark {
     @Bench
     public void commonsBeanUtils() throws Exception {
         Person p = new Person();
-        BeanPropertySetter bps = new BeanPropertySetter();
-        bps.setPropertyBeanUtils(p, "personId", 1);
-        bps.setPropertyBeanUtils(p, "firstName", "Uli");
-        bps.setPropertyBeanUtils(p, "lastName", "Heller");
+        BeanPropertySetter bps = new BeanPropertySetter(Implementation.BEANUTILS);
+        bps.setProperty(p, "personId", 1);
+        bps.setProperty(p, "firstName", "Uli");
+        bps.setProperty(p, "lastName", "Heller");
     }
 
     @Bench
     public void spring() throws Exception {
         Person p = new Person();
-        BeanPropertySetter bps = new BeanPropertySetter();
-        bps.setPropertySpring(p, "personId", 1);
-        bps.setPropertySpring(p, "firstName", "Uli");
-        bps.setPropertySpring(p, "lastName", "Heller");
+        BeanPropertySetter bps = new BeanPropertySetter(Implementation.SPRING);
+        bps.setProperty(p, "personId", 1);
+        bps.setProperty(p, "firstName", "Uli");
+        bps.setProperty(p, "lastName", "Heller");
     }
 }
