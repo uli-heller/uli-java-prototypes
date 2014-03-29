@@ -4,9 +4,11 @@ apply plugin: "eclipse"
 String commonsBeanUtilsVersion  = '1.9.1';
 String junitVersion             = '4.11';
 String perfidixVersion          = '3.6.9';
+String springVersion            = '4.0.3.RELEASE';
 
 dependencies {
    compile     "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
+   compile     "org.springframework:spring-beans:${springVersion}"
    testCompile "junit:junit:${junitVersion}"
    testCompile "org.perfidix:perfidix:${perfidixVersion}"
 }

@@ -5,6 +5,8 @@ package org.uli.perfidix;
 import java.beans.PropertyDescriptor;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class BeanPropertySetter {
     public void setProperty(Object bean, String name, Object value) throws Exception {
@@ -13,5 +15,9 @@ public class BeanPropertySetter {
     }
     public void setPropertyBeanUtils(Object bean, String name, Object value) throws Exception {
         BeanUtils.setProperty(bean, name, value);
+    }
+    public void setPropertySpring(Object bean, String name, Object value) throws Exception {
+        BeanWrapper bw = new BeanWrapperImpl(bean);
+        bw.setPropertyValue(name, value);
     }
 }

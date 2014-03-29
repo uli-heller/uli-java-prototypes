@@ -16,7 +16,7 @@ public class BeanPropertySetterBenchmark {
         BeanPropertySetter bps = new BeanPropertySetter();
         bps.setProperty(p, "personId", 1);
         bps.setProperty(p, "firstName", "Uli");
-        bps.setProperty(p,  "lastName", "Heller");
+        bps.setProperty(p, "lastName", "Heller");
     }
 
     @Bench
@@ -25,6 +25,15 @@ public class BeanPropertySetterBenchmark {
         BeanPropertySetter bps = new BeanPropertySetter();
         bps.setPropertyBeanUtils(p, "personId", 1);
         bps.setPropertyBeanUtils(p, "firstName", "Uli");
-        bps.setPropertyBeanUtils(p,  "lastName", "Heller");
+        bps.setPropertyBeanUtils(p, "lastName", "Heller");
+    }
+
+    @Bench
+    public void spring() throws Exception {
+        Person p = new Person();
+        BeanPropertySetter bps = new BeanPropertySetter();
+        bps.setPropertySpring(p, "personId", 1);
+        bps.setPropertySpring(p, "firstName", "Uli");
+        bps.setPropertySpring(p, "lastName", "Heller");
     }
 }
