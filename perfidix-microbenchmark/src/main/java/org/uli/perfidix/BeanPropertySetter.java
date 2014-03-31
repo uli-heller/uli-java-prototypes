@@ -13,6 +13,10 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
 public class BeanPropertySetter {
     public BeanPropertySetter() {
         this(Implementation.JAVA);
@@ -63,8 +67,26 @@ public class BeanPropertySetter {
     }
     
     static final ConcurrentMap<methodCacheKey, Method> methodCache = new ConcurrentHashMap<methodCacheKey, Method>();
+    static final LoadingCache<methodCacheKey, Method> loadingCache = CacheBuilder.newBuilder()
+                .maximumSize(100)
+                .build(new CacheLoader<methodCacheKey, Method>() {
+                    public Method load(methodCacheKey key) throws Exception {
+                        PropertyDescriptor pd = new PropertyDescriptor(key.propertyName, key.clazz);
+                        Method m = pd.getWriteMethod();
+                        return m;
+                    }
+                });
     
     public enum Implementation {
+        JAVA_GUAVA_CACHE {
+            @Override
+            public void setProperty(Object bean, String name, Object value) throws Exception {
+                Class<?> clazz = bean.getClass();
+                methodCacheKey mck = new methodCacheKey(clazz, name);
+                Method m = loadingCache.get(mck);
+                m.invoke(bean, value);
+            }
+        },
         JAVA_METHOD_CACHE {
             @Override
             public void setProperty(Object bean, String name, Object value) throws Exception {

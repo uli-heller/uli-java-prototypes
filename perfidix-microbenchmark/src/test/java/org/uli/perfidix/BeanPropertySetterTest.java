@@ -38,6 +38,18 @@ public class BeanPropertySetterTest {
     }
 
     @Test
+    public void guavaJdk() throws Exception {
+        Person p = new Person();
+        BeanPropertySetter bps = new BeanPropertySetter(Implementation.JAVA_GUAVA_CACHE);
+        bps.setProperty(p,  "personId", 1);
+        bps.setProperty(p,  "firstName", "Uli");
+        bps.setProperty(p,  "lastName", "Heller");
+        assertEquals(Integer.valueOf(1), p.getPersonId());
+        assertEquals("Uli", p.getFirstName());
+        assertEquals("Heller", p.getLastName());
+    }
+
+    @Test
     public void beanUtils() throws Exception {
         Person p = new Person();
         BeanPropertySetter bps = new BeanPropertySetter(Implementation.BEANUTILS);

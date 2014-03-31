@@ -23,6 +23,7 @@ Setting the property can be done in two different ways:
 
 * based on standard java calls
 * based on standard java calls using a lookup cache for the setter method
+* based on standard java calls using a guava cache for the setter method
 * based on commons-beanutils
 * based on spring beanwrapper
 
@@ -63,3 +64,4 @@ Looking at the results shows:
 * the method based on commons-beanutils is faster when doing a large number of executions (100, 1000)
 * the method based on spring bean wrapper is somewhere in the middle
 * the method using standard java calls combined with a lookup cache is fastest in all runs
+* the method using standard java calls combined with a lookup cache a little bit slower but comes in on second place
