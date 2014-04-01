@@ -39,6 +39,15 @@ public class BeanPropertySetterBenchmark {
     }
 
     @Bench
+    public void guavaNoCache() throws Exception {
+        Person p = new Person();
+        BeanPropertySetter bps = new BeanPropertySetter(Implementation.JAVA_GUAVA_NOCACHE);
+        bps.setProperty(p, "personId", 1);
+        bps.setProperty(p, "firstName", "Uli");
+        bps.setProperty(p, "lastName", "Heller");
+    }
+
+    @Bench
     public void commonsBeanUtils() throws Exception {
         Person p = new Person();
         BeanPropertySetter bps = new BeanPropertySetter(Implementation.BEANUTILS);

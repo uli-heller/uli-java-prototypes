@@ -4,8 +4,6 @@ package org.uli.perfidix;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -27,10 +25,10 @@ public class BeanPropertySetter {
     }
 
     private static class methodCacheKey {
-        final private Class clazz;
+        final private Class<?> clazz;
         final private String propertyName;
         
-        public methodCacheKey(final Class clazz, final String propertyName) {
+        public methodCacheKey(final Class<?> clazz, final String propertyName) {
             this.clazz = clazz;
             this.propertyName = propertyName;
         }
@@ -42,7 +40,7 @@ public class BeanPropertySetter {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+            result = prime * result + ((clazz == null) ? 0 : clazz.getCanonicalName().hashCode());
             result = prime * result + ((propertyName == null) ? 0 : propertyName.hashCode());
             return result;
         }
@@ -58,7 +56,7 @@ public class BeanPropertySetter {
             methodCacheKey other = (methodCacheKey) obj;
             if (clazz == null) {
                 if (other.clazz != null) return false;
-            } else if (!clazz.equals(other.clazz)) return false;
+            } else if (clazz != other.clazz) return false;
             if (propertyName == null) {
                 if (other.propertyName != null) return false;
             } else if (!propertyName.equals(other.propertyName)) return false;
@@ -76,6 +74,15 @@ public class BeanPropertySetter {
                         return m;
                     }
                 });
+    static final LoadingCache<methodCacheKey, Method> loadingNoCache = CacheBuilder.newBuilder()
+                .maximumSize(0)
+                .build(new CacheLoader<methodCacheKey, Method>() {
+                    public Method load(methodCacheKey key) throws Exception {
+                        PropertyDescriptor pd = new PropertyDescriptor(key.propertyName, key.clazz);
+                        Method m = pd.getWriteMethod();
+                        return m;
+                    }
+                });
     
     public enum Implementation {
         JAVA_GUAVA_CACHE {
@@ -84,6 +91,15 @@ public class BeanPropertySetter {
                 Class<?> clazz = bean.getClass();
                 methodCacheKey mck = new methodCacheKey(clazz, name);
                 Method m = loadingCache.get(mck);
+                m.invoke(bean, value);
+            }
+        },
+        JAVA_GUAVA_NOCACHE {
+            @Override
+            public void setProperty(Object bean, String name, Object value) throws Exception {
+                Class<?> clazz = bean.getClass();
+                methodCacheKey mck = new methodCacheKey(clazz, name);
+                Method m = loadingNoCache.get(mck);
                 m.invoke(bean, value);
             }
         },
