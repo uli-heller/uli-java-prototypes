@@ -1,0 +1,50 @@
+// Derived from http://javanils.blogspot.de/2013/02/generate-java-from-wsdl-with-gradle.html
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+repositories {
+    mavenCentral()
+}
+
+def cxfVersion="2.7.7";
+def log4jVersion="1.2.17";
+def wsdlDir = "src/main/resources/wsdl";
+
+project.ext {
+ generatedWsdlDir = file("build/generated-sources")
+}
+ 
+configurations{
+    ws
+}
+ 
+dependencies{
+     ws "org.apache.cxf:cxf-tools:${cxfVersion}",
+        "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}",
+        "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}",
+        "log4j:log4j:${log4jVersion}"
+}
+ 
+task wsdl2Java() {
+    File d = new File(wsdlDir);
+    def files = d.listFiles();
+    inputs.files files
+    outputs.files generatedWsdlDir
+    if (!files) {
+        // do nothing
+    } else {
+        doLast {
+            files.each { argsin ->
+                def myArgs = [ '-d', generatedWsdlDir, '-verbose' ] + argsin;
+                javaexec {
+                    classpath configurations.ws
+                    main = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
+                    args = myArgs
+                    systemProperties = ['exitOnFinish':'TRUE']
+                }
+            }
+        }
+    }
+}
