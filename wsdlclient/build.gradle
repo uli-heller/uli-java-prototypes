@@ -27,9 +27,14 @@ dependencies{
         "log4j:log4j:${log4jVersion}"
 }
  
-task wsdl2Java() {
+task wsdl2java() {
     File d = new File(wsdlDir);
-    def files = d.listFiles();
+    def files = d.listFiles(new FilenameFilter() {
+        public boolean accept(File dir, String name) {
+          return name.toLowerCase().endsWith(".wsdl");
+        }
+      }
+    );
     inputs.files files
     outputs.files generatedWsdlDir
     if (!files) {
