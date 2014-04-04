@@ -1,4 +1,6 @@
 // Derived from http://javanils.blogspot.de/2013/02/generate-java-from-wsdl-with-gradle.html
+// and from https://bowerstudios.com/node/699
+// and from http://forums.gradle.org/gradle/topics/java_code_generation_using_wsdl2java_over_http
 buildscript {
     repositories {
         mavenCentral()
@@ -8,9 +10,42 @@ repositories {
     mavenCentral()
 }
 
-def cxfVersion="2.7.7";
 def log4jVersion="1.2.17";
+def axisVersion="1.4";
+def axis2Version="1.6.2";
+def cxfVersion="2.7.7";
+def axis = [
+  dependencies : [
+       "axis:axis-ant:${axisVersion}",
+       "axis:axis:${axisVersion}"
+     ],
+  main : 'org.apache.axis.wsdl.WSDL2Java',
+  outputDirectoryOption : '-o',
+];
+def axis2 = [
+  dependencies : [
+       "org.apache.axis2:axis2-codegen:${axis2Version}",
+       "org.apache.axis2:axis2:${axis2Version}",
+     ],
+  main : 'org.apache.axis2.wsdl.WSDL2Java',
+  outputDirectoryOption : '-o',
+  wsdlOption            : '-uri',
+  constantOptions       : [ '-ap', '-ss' ],
+];
+def cxf = [
+  dependencies : [
+       "org.apache.cxf:cxf-tools:${cxfVersion}",
+       "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}",
+       "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}",
+       "log4j:log4j:${log4jVersion}"
+     ],
+  main :  'org.apache.cxf.tools.wsdlto.WSDLToJava',
+  outputDirectoryOption : '-d',
+];
 def wsdlDir = "src/main/resources/wsdl";
+//def stubGenerator = cxf;
+//def stubGenerator = axis;
+def stubGenerator = axis2;
 
 project.ext {
  generatedWsdlDir = file("build/generated-sources")
@@ -21,10 +56,7 @@ configurations{
 }
  
 dependencies{
-     ws "org.apache.cxf:cxf-tools:${cxfVersion}",
-        "org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:${cxfVersion}",
-        "org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:${cxfVersion}",
-        "log4j:log4j:${log4jVersion}"
+     ws stubGenerator.dependencies
 }
  
 task wsdl2java() {
@@ -42,10 +74,18 @@ task wsdl2java() {
     } else {
         doLast {
             files.each { argsin ->
-                def myArgs = [ '-d', generatedWsdlDir, '-verbose' ] + argsin;
+	        def myArgs = [];
+                if (stubGenerator.constantOptions) {
+		  myArgs += stubGenerator.constantOptions;
+                }
+                myArgs += [ stubGenerator.outputDirectoryOption, generatedWsdlDir ];
+                if (stubGenerator.wsdlOption) {
+		  myArgs += stubGenerator.wsdlOption;
+                }
+		myArgs += argsin;
                 javaexec {
                     classpath configurations.ws
-                    main = 'org.apache.cxf.tools.wsdlto.WSDLToJava'
+		    main = stubGenerator.main;
                     args = myArgs
                     systemProperties = ['exitOnFinish':'TRUE']
                 }
