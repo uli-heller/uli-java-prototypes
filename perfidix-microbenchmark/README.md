@@ -65,3 +65,5 @@ Looking at the results shows:
 * the method based on spring bean wrapper is somewhere in the middle
 * the method using standard java calls combined with a lookup cache is fastest in all runs
 * the method using standard java calls combined with a lookup cache a little bit slower but comes in on second place
+
+I compared common-beanutils version 1.9.1 with version 1.8.3, too. 1.8.3 seems to be roughly 5% faster.
