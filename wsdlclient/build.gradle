@@ -21,6 +21,7 @@ def axis = [
      ],
   main : 'org.apache.axis.wsdl.WSDL2Java',
   outputDirectoryOption : '-o',
+  constantOptions       : [ '-s', '-a' ],
 ];
 def axis2 = [
   dependencies : [
@@ -30,7 +31,7 @@ def axis2 = [
   main : 'org.apache.axis2.wsdl.WSDL2Java',
   outputDirectoryOption : '-o',
   wsdlOption            : '-uri',
-  constantOptions       : [ '-ap', '-ss' ],
+  constantOptions       : [ '-ap', '-ss', '-S', '.' ],
 ];
 def cxf = [
   dependencies : [
@@ -43,9 +44,9 @@ def cxf = [
   outputDirectoryOption : '-d',
 ];
 def wsdlDir = "src/main/resources/wsdl";
-//def stubGenerator = cxf;
 //def stubGenerator = axis;
-def stubGenerator = axis2;
+//def stubGenerator = axis2;
+def stubGenerator = cxf;
 
 project.ext {
  generatedWsdlDir = file("build/generated-sources")
