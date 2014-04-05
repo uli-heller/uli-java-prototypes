@@ -30,6 +30,11 @@ Diese Prototypen gibt's:
 
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
+Dies sind "gescheiterte" Prototypen:
+
+* [caliper-microbenchmark](caliper-microbenchmark) ... Anfang 2014 liegt keine vernünftig funktionierende Version von "caliper" vor; Alternative: [perfidix-microbenchmark](perfidix-microbenchmark)
+
+* [openwebbeans](openwebbeans) ... sind Ende 2013 unter Tomcat nicht an's Laufen zu bekommen
 
 Kompilierung
 ------------
