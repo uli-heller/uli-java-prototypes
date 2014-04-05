@@ -1,23 +1,14 @@
-WSDL First Web Service Client
-=============================
+WSDL2JAVA - Creating Stubs
+==========================
 
-Challenges
-----------
-
-* Gradle build
-* Eclipse IDE
-* Identify the service class
-* Identify all required interfaces
-* Adjust the package name
-
-Instructions
+Preparations
 ------------
 
 * Create a build description similar to 'build.gradle'
 * Copy the WSDL into src/main/resources/wsdl, for example 'wsaa.wsdl'
 
-Wsdl2Java - Creating Stubs
---------------------------
+Wsdl2Java
+---------
 
 There are several ways to create the java stub classes:
 
