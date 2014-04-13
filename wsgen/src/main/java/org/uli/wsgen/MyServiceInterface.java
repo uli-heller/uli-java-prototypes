@@ -4,7 +4,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService(name = "MyService", targetNamespace = "org.uli.wsgen")
+@WebService(name = "MyService", targetNamespace = "http://wsgen.uli.org/")
 public interface MyServiceInterface {
     @WebMethod
     public BasicResult basicService();
