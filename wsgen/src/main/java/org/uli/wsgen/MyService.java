@@ -4,13 +4,13 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-@WebService(name = "MyService", targetNamespace = "org.uli.wsgen")
-public class MyService {
-    @WebMethod
+@WebService
+public class MyService implements MyServiceInterface {
+    @Override
     public BasicResult basicService() {
 	return (BasicResult) null;
     }
-    @WebMethod
+    @Override
     public ExtendedResult extendedService() {
 	return (ExtendedResult) null;
     }
