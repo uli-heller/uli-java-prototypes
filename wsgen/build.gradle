@@ -17,9 +17,11 @@ task wsgen(dependsOn: compileJava)  {
             taskdef(name:'wsgen',
                 classname:'com.sun.tools.ws.ant.WsGen',
                 classpath:configurations.jaxws.asPath)
+            mkdir(dir: 'build/generated');
+            mkdir(dir: 'src/main/resources/wsdl');
             wsgen(keep:true,
                 destdir: 'build',
-                sourcedestdir:'src',
+                sourcedestdir:'build/generated',
                 resourcedestdir:'src/main/resources/wsdl',
                 genwsdl:'true',
 		inlineSchemas:'true',
@@ -30,3 +32,7 @@ task wsgen(dependsOn: compileJava)  {
 }
 
 classes.dependsOn wsgen
+
+clean.doLast {
+    project.delete 'src/main/resources/wsdl'
+}
