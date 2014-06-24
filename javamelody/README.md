@@ -48,7 +48,5 @@ Quickstart
 
 #### Build - Run - Test
 
-    ../gradlew --daemon war
-    # Deploy build/libs/javamelody.war into a Tomcat container
-    # Start the Tomcat container
+    ../gradlew --daemon jettyRunWar
     # Browse to http://localhost:8080/javamelody and to http://localhost:8080/javamelody/monitoring
