@@ -49,5 +49,4 @@ Quickstart
 #### Build - Run - Test
 
     ../gradlew --daemon jettyRunWar
-    # Browse to http://localhost:8080/javamelody/hello.xhtml
-    # ... and to http://localhost:8080/javamelody/monitoring
+    # Browse to http://localhost:8080/javamelody
