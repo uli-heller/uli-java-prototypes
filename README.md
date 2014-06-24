@@ -12,6 +12,8 @@ Diese Prototypen gibt's:
 
 * [conversation-scope](conversation-scope) ... Verwendung vom CDI-Conversation-Scope
 
+* [javamelody](javamelody) ... JEE-Monitoring
+
 * [jopt-simple](jopt-simple) ... Auswerten von Kommandozeilen-Optionen
 
 * [jsf-view-scope](jsf-view-scope) ... Beispiel von JSF-View-Scope
