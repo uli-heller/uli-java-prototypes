@@ -28,6 +28,8 @@ Diese Prototypen gibt's:
 
 * [resultset](resultset) ... Wandlung eines JDBC-ResultSets in List<Entity>
 
+* [request-response-logger](request-response-logger) ... Protokollierung der Anfragen und Antworten in einer WebApp
+
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
 Dies sind "gescheiterte" Prototypen:
