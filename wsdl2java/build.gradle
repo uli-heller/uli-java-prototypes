@@ -43,10 +43,18 @@ def cxf = [
   main :  'org.apache.cxf.tools.wsdlto.WSDLToJava',
   outputDirectoryOption : '-d',
 ];
+def wsimport = [
+  dependencies : [],
+  exec :  'wsimport',
+  outputDirectoryOption : '-s',
+  constantOptions : [ '-Xnocompile', ],
+];
+
 def wsdlDir = "src/main/resources/wsdl";
 //def stubGenerator = axis;
 //def stubGenerator = axis2;
 def stubGenerator = cxf;
+//def stubGenerator = wsimport;
 
 project.ext {
  generatedWsdlDir = file("build/generated-sources")
@@ -74,6 +82,8 @@ task wsdl2java() {
         // do nothing
     } else {
         doLast {
+            delete generatedWsdlDir
+            mkdir generatedWsdlDir
             files.each { argsin ->
 	        def myArgs = [];
                 if (stubGenerator.constantOptions) {
@@ -84,11 +94,18 @@ task wsdl2java() {
 		  myArgs += stubGenerator.wsdlOption;
                 }
 		myArgs += argsin;
-                javaexec {
-                    classpath configurations.ws
-		    main = stubGenerator.main;
-                    args = myArgs
-                    systemProperties = ['exitOnFinish':'TRUE']
+                if (stubGenerator.main) {
+                    javaexec {
+                        classpath configurations.ws
+                        main = stubGenerator.main;
+                        args = myArgs
+                        systemProperties = ['exitOnFinish':'TRUE']
+                    }
+                } else {
+                    exec {
+                        executable = stubGenerator.exec;
+                        args = myArgs;
+                    }
                 }
             }
         }

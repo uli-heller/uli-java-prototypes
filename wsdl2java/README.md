@@ -15,15 +15,19 @@ There are several ways to create the java stub classes:
 * CXF
 * Axis
 * Axis2
+* JDK - wsimport
 
-Within our build.gradle, all three ways are included.
+Within our build.gradle, all four ways are included.
 You select the stub creation by activating one of these:
 
 ```
-def stubGenerator = cxf;
+//def stubGenerator = cxf;
 //def stubGenerator = axis;
 //def stubGenerator = axis2;
+def stubGenerator = wsimport;
 ```
+
+For wsimport, almost no additional dependencies are required.
 
 Looking at the generated stubs, I see:
 
