@@ -1,9 +1,16 @@
 buildscript {
+    ext {
+        springBootVersion = '1.2.0.BUILD-SNAPSHOT'
+    }
     repositories {
+        mavenLocal()
         mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.5.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
@@ -11,6 +18,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
 
 jar {
     baseName = 'gs-spring-boot'
@@ -18,16 +26,21 @@ jar {
 }
 
 repositories {
-    mavenCentral()
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repo.spring.io/release" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/snapshot" }
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
-    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    providedCompile("org.springframework.boot:spring-boot-starter-tomcat")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+    providedCompile("org.apache.tomcat.embed:tomcat-embed-jasper")
+    compile("javax.servlet:jstl")
     testCompile("junit:junit")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
 task wrapper(type: Wrapper) {
