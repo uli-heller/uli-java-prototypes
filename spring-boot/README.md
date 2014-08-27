@@ -33,3 +33,25 @@ apply plugin: 'war'
 ```
 
 ### Aktivieren des Loggings
+
+Das Logging kann auf zwei Arten aktiviert werden:
+
+* über die Datei application.properties
+* über die Datei logback.xml
+
+#### src/main/resources/application.properties
+
+```
+logging.level.org.springframework.web: DEBUG
+logging.level.org.apache.jasper.compiler.TldLocationsCache: DEBUG
+```
+
+#### src/main/resources/logback.xml
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <logger name="org.springframework.web" level="DEBUG"/>
+</configuration>
+```
