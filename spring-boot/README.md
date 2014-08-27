@@ -12,6 +12,17 @@ Historie
 * 2014-08-27
     * Beginn der Historie
 
+JSP
+---
+
+### /welcome
+
+Einfach-JSP, verwendet ein paar Taglibs
+
+### /saplogon-{xy}/redirect{jk}
+
+Führt einen Redirect nach http://heise.de durch
+
 Probleme
 --------
 
