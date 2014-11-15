@@ -4,6 +4,7 @@
   version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="jpa" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>org.uli.lombokjpa.AnotherLombokPerson</class>
     <class>org.uli.lombokjpa.LombokPerson</class>
     <class>org.uli.lombokjpa.TraditionalPerson</class>
     <properties>

@@ -29,6 +29,7 @@ public class PersonTest {
 
     private static Map<Integer, LombokPerson> lombokPersons = new HashMap<Integer, LombokPerson>();
     private static Map<Integer, TraditionalPerson> traditionalPersons = new HashMap<Integer, TraditionalPerson>();
+    private static Map<Integer, AnotherLombokPerson> otherLombokPersons = new HashMap<Integer, AnotherLombokPerson>();
 
     @BeforeClass
     static public void initEm() {
@@ -63,6 +64,17 @@ public class PersonTest {
                 lombokPersons.put(person.getPersonId(), person);
             }
             entityManager.getTransaction().commit();
+            // Create new other lombok persons
+            entityManager.getTransaction().begin();
+            for (int i=0; i<40; i++) {
+                AnotherLombokPerson person = AnotherLombokPerson.builder()
+                  .firstName("firstName-"+i)
+                  .lastName("lastName-"+i)
+		  .build();
+                entityManager.persist(person);
+                otherLombokPersons.put(person.getPersonId(), person);
+            }
+            entityManager.getTransaction().commit();
         }
         entityManager.close();
     }
@@ -74,7 +86,18 @@ public class PersonTest {
         @SuppressWarnings("unchecked")
         List<Object> resultList = query.getResultList();
         assertFalse(resultList.isEmpty());
-        assertEquals(lombokPersons.size(), resultList.size());
+        assertEquals(lombokPersons.size()+otherLombokPersons.size(), resultList.size());
+        entityManager.close();
+    }
+    
+    @Test
+    public void testNotEmptyALP() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select p from AnotherLombokPerson p");
+        @SuppressWarnings("unchecked")
+        List<Object> resultList = query.getResultList();
+        assertFalse(resultList.isEmpty());
+        assertEquals(lombokPersons.size()+otherLombokPersons.size(), resultList.size());
         entityManager.close();
     }
     
@@ -92,9 +115,35 @@ public class PersonTest {
     }
 
     @Test
+    public void testFindALP() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        for (AnotherLombokPerson p : otherLombokPersons.values()) {
+            Integer personId = p.getPersonId();
+            TraditionalPerson dbPerson = entityManager.find(TraditionalPerson.class, personId);
+            assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
+            assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
+            assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
+        }
+        entityManager.close();
+    }
+
+    @Test
     public void testGetReference() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         for (LombokPerson p : lombokPersons.values()) {
+            Integer personId = p.getPersonId();
+            TraditionalPerson dbPerson = entityManager.getReference(TraditionalPerson.class, personId);
+            assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
+            assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
+            assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
+        }
+        entityManager.close();
+    }
+
+    @Test
+    public void testGetReferenceALP() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        for (AnotherLombokPerson p : otherLombokPersons.values()) {
             Integer personId = p.getPersonId();
             TraditionalPerson dbPerson = entityManager.getReference(TraditionalPerson.class, personId);
             assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
