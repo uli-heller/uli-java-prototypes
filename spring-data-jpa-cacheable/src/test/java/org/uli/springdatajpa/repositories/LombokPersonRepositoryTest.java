@@ -56,6 +56,7 @@ public class LombokPersonRepositoryTest {
                 person.setFirstName("firstName-"+i);
                 person.setLastName("lastName-"+i);
                 session.saveOrUpdate(person);
+                @SuppressWarnings("unused")
                 val addresses = createAddresses(session, person, i);
             }
             session.close();
