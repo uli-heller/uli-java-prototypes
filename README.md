@@ -32,6 +32,8 @@ Diese Prototypen gibt's:
 
 * [request-response-logger](request-response-logger) ... Protokollierung der Anfragen und Antworten in einer WebApp
 
+* [spring-data-jpa](spring-data-jpa) ... Verwendung von SpringDataJPA
+
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
 Dies sind "gescheiterte" Prototypen:

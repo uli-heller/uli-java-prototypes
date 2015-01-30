@@ -3,13 +3,10 @@
  */
 package org.uli.springdatajpa.repositories;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import lombok.val;
@@ -26,8 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import org.uli.springdatajpa.entities.LombokAddress;
 import org.uli.springdatajpa.entities.LombokPerson;
-import org.uli.springdatajpa.entities.TraditionalPerson;
 
 /**
  * @author uli
@@ -58,22 +56,35 @@ public class LombokPersonRepositoryTest {
                 person.setFirstName("firstName-"+i);
                 person.setLastName("lastName-"+i);
                 session.saveOrUpdate(person);
+                val addresses = createAddresses(session, person, i);
             }
             session.close();
         }
     }
 
+    private List<LombokAddress> createAddresses(Session s, LombokPerson p, int number) {
+        List<LombokAddress> result = new LinkedList<LombokAddress>();
+        for (int i=0; i<number; i++) {
+            LombokAddress a = LombokAddress.builder().street("street - "+p.getLastName()).city("city - "+p.getLastName()).build();
+            a.setPersonId(p.getPersonId());
+            result.add(a);
+            s.saveOrUpdate(a);
+        }
+        return result;
+    }
     @Test
     public void findAllLombokPersons() {
         val lombokPersons = lombokPersonRepository.findAll();
         assertThat(lombokPersons.size(), CoreMatchers.is(NUMBER_OF_PERSONS));
     }
     
-    @Test
+    @Test @Transactional
     public void findByLastName() {
         val person = lombokPersonRepository.findByLastName("lastName-9");
         assertThat(person, CoreMatchers.notNullValue());
         assertThat(person.getFirstName(), CoreMatchers.is("firstName-9"));
+        assertThat(person.getAddresses(), CoreMatchers.notNullValue());
+        assertThat(person.getAddresses().size(), CoreMatchers.is(9));
     }
     
     @Test
@@ -88,7 +99,7 @@ public class LombokPersonRepositoryTest {
         LombokPerson person = LombokPerson.builder().firstName("uli").lastName("lastName-9").build();
         lombokPersonRepository.saveAndFlush(person);
         person = lombokPersonRepository.findByLastName("lastName-9");
-        assertThat(person, CoreMatchers.notNullValue());
-        assertThat(person.getFirstName(), CoreMatchers.is("firstName-9"));
+        //assertThat(person, CoreMatchers.notNullValue());
+        //assertThat(person.getFirstName(), CoreMatchers.is("firstName-9"));
         }
 }

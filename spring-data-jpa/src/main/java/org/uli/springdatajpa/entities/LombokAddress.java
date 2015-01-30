@@ -1,15 +1,10 @@
 package org.uli.springdatajpa.entities;
 
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,27 +16,27 @@ import lombok.ToString;
 import lombok.experimental.Builder;
 
 @Entity
-@Table(name="PERSON")
+@Table(name="ADDRESS")
 @EqualsAndHashCode
 @ToString
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-public class LombokPerson {
+public class LombokAddress {
     @Id
     @Column(name="ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
+    private Integer addressId;
+    
+    @Getter @Setter
     private Integer personId;
     
-    @Column(name="FIRST_NAME")
+    @Column(name="STREET")
     @Getter @Setter
-    private String firstName;
+    private String street;
     
-    @Column(name="LAST_NAME")
+    @Column(name="CITY")
     @Getter @Setter
-    private String lastName;
+    private String city;
     
-    @OneToMany(cascade=CascadeType.REMOVE, mappedBy="personId")
-    @Getter @Setter
-    private List<LombokAddress> addresses;
 }
