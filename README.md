@@ -34,6 +34,8 @@ Diese Prototypen gibt's:
 
 * [spring-data-jpa](spring-data-jpa) ... Verwendung von SpringDataJPA
 
+* [spring-data-jpa-cacheable](spring-data-jpa-cacheable) ... Verwendung von SpringDataJPA mit GuavaCache
+
 * [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
 Dies sind "gescheiterte" Prototypen:
