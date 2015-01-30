@@ -24,8 +24,8 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.uli.springdatajpa.entities.LombokAddress;
-import org.uli.springdatajpa.entities.LombokPerson;
+import org.uli.springdatajpa.entities.Address;
+import org.uli.springdatajpa.entities.Person;
 
 /**
  * @author uli
@@ -34,9 +34,9 @@ import org.uli.springdatajpa.entities.LombokPerson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
 @Slf4j
-public class LombokPersonRepositoryTest {
+public class PersonRepositoryTest {
     @Autowired
-    LombokPersonRepository lombokPersonRepository;
+    PersonRepository lombokPersonRepository;
     @Autowired
     SessionFactory sessionFactory;
    
@@ -52,7 +52,7 @@ public class LombokPersonRepositoryTest {
             Query delete = session.createQuery("delete from LombokPerson p");
             delete.executeUpdate();
             for (int i=0; i<NUMBER_OF_PERSONS; i++) {
-                LombokPerson person = new LombokPerson();
+                Person person = new Person();
                 person.setFirstName("firstName-"+i);
                 person.setLastName("lastName-"+i);
                 session.saveOrUpdate(person);
@@ -63,10 +63,10 @@ public class LombokPersonRepositoryTest {
         }
     }
 
-    private List<LombokAddress> createAddresses(Session s, LombokPerson p, int number) {
-        List<LombokAddress> result = new LinkedList<LombokAddress>();
+    private List<Address> createAddresses(Session s, Person p, int number) {
+        List<Address> result = new LinkedList<Address>();
         for (int i=0; i<number; i++) {
-            LombokAddress a = LombokAddress.builder().street("street - "+p.getLastName()).city("city - "+p.getLastName()).build();
+            Address a = Address.builder().street("street - "+p.getLastName()).city("city - "+p.getLastName()).build();
             a.setPersonId(p.getPersonId());
             result.add(a);
             s.saveOrUpdate(a);
@@ -97,7 +97,7 @@ public class LombokPersonRepositoryTest {
     
     @Test(expected=IncorrectResultSizeDataAccessException.class)
     public void findByLastNameMulti() {
-        LombokPerson person = LombokPerson.builder().firstName("uli").lastName("lastName-9").build();
+        Person person = Person.builder().firstName("uli").lastName("lastName-9").build();
         lombokPersonRepository.saveAndFlush(person);
         person = lombokPersonRepository.findByLastName("lastName-9");
         //assertThat(person, CoreMatchers.notNullValue());

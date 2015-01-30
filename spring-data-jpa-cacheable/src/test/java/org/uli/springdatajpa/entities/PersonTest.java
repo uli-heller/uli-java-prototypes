@@ -19,8 +19,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.uli.springdatajpa.entities.LombokPerson;
-import org.uli.springdatajpa.entities.TraditionalPerson;
+import org.uli.springdatajpa.entities.Person;
 
 /**
  * @author uli
@@ -28,11 +27,11 @@ import org.uli.springdatajpa.entities.TraditionalPerson;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
-public class MixedPersonTest {
+public class PersonTest {
     @Autowired SessionFactory sessionFactory;
 
     private static boolean fInitialized = false;
-    private static Map<Integer, LombokPerson> persons = new HashMap<Integer, LombokPerson>();
+    private static Map<Integer, Person> persons = new HashMap<Integer, Person>();
 
     /**
      * @throws java.lang.Exception
@@ -44,7 +43,7 @@ public class MixedPersonTest {
             Query delete = session.createQuery("delete from LombokPerson p");
             delete.executeUpdate();
             for (int i=0; i<40; i++) {
-                LombokPerson person = new LombokPerson();
+                Person person = new Person();
                 person.setFirstName("firstName-"+i);
                 person.setLastName("lastName-"+i);
                 session.saveOrUpdate(person);
@@ -69,9 +68,9 @@ public class MixedPersonTest {
     @Test
     public void testFind() {
         Session session = sessionFactory.openSession();
-        for (LombokPerson p : persons.values()) {
+        for (Person p : persons.values()) {
             Integer personId = p.getPersonId();
-            TraditionalPerson dbPerson = (TraditionalPerson) session.get(TraditionalPerson.class, personId);
+            Person dbPerson = (Person) session.get(Person.class, personId);
             assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
             assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
             assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
