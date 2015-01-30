@@ -1,22 +1,12 @@
 apply plugin: "java"
 apply plugin: "eclipse"
 
-String commonsBeanUtilsVersion  = '1.9.1';
-String guavaVersion             = '16.0.1';
-String junitVersion             = '4.11';
-String perfidixVersion          = '3.6.9';
-String springVersion            = '4.0.3.RELEASE';
-
 dependencies {
-   compile     "commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"
-   compile     "org.springframework:spring-beans:${springVersion}"
-   compile     "com.google.guava:guava:${guavaVersion}"
-   testCompile "junit:junit:${junitVersion}"
-   testCompile "org.perfidix:perfidix:${perfidixVersion}"
-}
-
-repositories {
-    mavenCentral()
+   compile     commonsBeanutils
+   compile     springBeans
+   compile     guava
+   testCompile junit
+   testCompile perfidix
 }
 
 clean.doLast {
