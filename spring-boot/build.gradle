@@ -1,17 +1,14 @@
 buildscript {
-    ext {
-        springBootVersion = '1.1.5.RELEASE'
-    }
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath springBootGradlePlugin;
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
+//apply plugin: 'java'
+//apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
@@ -21,20 +18,12 @@ jar {
     version =  '0.1.0'
 }
 
-repositories {
-        mavenCentral()
-}
-
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    providedCompile("org.springframework.boot:spring-boot-starter-tomcat")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    providedCompile("org.apache.tomcat.embed:tomcat-embed-jasper")
-    compile("javax.servlet:jstl")
-    testCompile("junit:junit")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    compile springBootStarterWeb
+    providedCompile springBootStarterTomcat
+    compile springBootStarterActuator
+    providedCompile tomcatEmbedJasper
+    compile jstl
+    testCompile junit
+    testCompile springBootStarterTest
 }
