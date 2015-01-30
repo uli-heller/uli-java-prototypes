@@ -1,0 +1,11 @@
+subprojects {
+    apply from: "${rootDir}/dependencies.gradle";
+
+    tasks.withType(AbstractCompile) {
+      options.encoding = 'UTF-8'
+    }
+
+    repositories {
+      mavenCentral()
+    }
+}
