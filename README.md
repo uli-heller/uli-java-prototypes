@@ -22,7 +22,7 @@ Diese Prototypen gibt's:
 
 * [lombok-jpa](lombok-jpa) ... JPA in Verbindung mit Lombok
 
-* [lombok-jpa](lombok-spring-jpa) ... JPA und Spring in Verbindung mit Lombok
+* [lombok-spring-jpa](lombok-spring-jpa) ... JPA und Spring in Verbindung mit Lombok
 
 * [lookup](lookup) ... "Nachschlagen" von "Konfigurations"-Parametern
 
