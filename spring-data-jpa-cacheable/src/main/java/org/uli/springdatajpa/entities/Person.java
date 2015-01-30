@@ -1,6 +1,7 @@
 package org.uli.springdatajpa.entities;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +15,6 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Builder;
@@ -24,7 +24,7 @@ import lombok.experimental.Builder;
 @EqualsAndHashCode
 @ToString
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@AllArgsConstructor
 public class Person {
     @Id
     @Column(name="ID")
@@ -43,4 +43,15 @@ public class Person {
     @OneToMany(cascade=CascadeType.REMOVE, mappedBy="personId")
     @Getter @Setter
     private List<Address> addresses;
+    
+    @Getter
+    static private final AtomicInteger noArgsConstructorCallCounter = new AtomicInteger(0);
+    
+    public Person() {
+        noArgsConstructorCallCounter.incrementAndGet();
+    }
+    
+    public static void clearNoArgsConstructorCallCounter() {
+        noArgsConstructorCallCounter.set(0);
+    }
 }

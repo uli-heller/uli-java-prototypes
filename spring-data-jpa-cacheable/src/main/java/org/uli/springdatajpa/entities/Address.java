@@ -1,5 +1,7 @@
 package org.uli.springdatajpa.entities;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,6 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Builder;
@@ -20,7 +21,7 @@ import lombok.experimental.Builder;
 @EqualsAndHashCode
 @ToString
 @Builder
-@NoArgsConstructor @AllArgsConstructor
+@AllArgsConstructor
 public class Address {
     @Id
     @Column(name="ID")
@@ -38,5 +39,15 @@ public class Address {
     @Column(name="CITY")
     @Getter @Setter
     private String city;
+
+    @Getter
+    static private final AtomicInteger noArgsConstructorCallCounter = new AtomicInteger(0);
     
+    public Address() {
+        noArgsConstructorCallCounter.incrementAndGet();
+    }
+
+    public static void clearNoArgsConstructorCallCounter() {
+        noArgsConstructorCallCounter.set(0);
+    }
 }
