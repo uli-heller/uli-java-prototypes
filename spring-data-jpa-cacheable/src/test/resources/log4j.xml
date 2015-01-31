@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<!--<log4j:configuration debug="true">-->
+<log4j:configuration>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} [%t] %5p %C:%L-%M() - %m%n" />
+        </layout>
+    </appender>
+    <appender name="file" class="org.apache.log4j.RollingFileAppender">
+        <param name="append" value="false" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="10" />
+        <param name="file" value="spring-data-jpa-cacheable.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} [%t] %5p %C:%L-%M() - %m%n" />
+        </layout>
+    </appender>
+ 
+    <logger name="org.springframework">
+        <level value="info"/>
+    </logger>
+    <logger name="org.hibernate">
+        <level value="info"/>
+    </logger>
+    <!-- log all jdbc parameters -->
+    <logger name="org.hibernate.type">
+        <level value="all"/>
+    </logger>
+    <logger name="org.hibernate.SQL">
+        <level value="all"/>
+    </logger>
+
+<!--sets the default priority log level-->
+    <root>
+        <priority value="trace"></priority>
+        <appender-ref ref="file"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</log4j:configuration>
