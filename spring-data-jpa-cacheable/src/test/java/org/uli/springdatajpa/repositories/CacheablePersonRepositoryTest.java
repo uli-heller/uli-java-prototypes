@@ -61,6 +61,8 @@ public class CacheablePersonRepositoryTest {
     SessionFactory sessionFactory;
     @Autowired
     PlatformTransactionManager transactionManager;
+    @Autowired
+    CacheManager cacheManager;
 
     private static AtomicBoolean fInitialized = new AtomicBoolean(false);
 
@@ -85,6 +87,7 @@ public class CacheablePersonRepositoryTest {
         }
         CacheablePerson.clearNoArgsConstructorCallCounter();
         CacheableAddress.clearNoArgsConstructorCallCounter();
+        this.clearAllCaches();
     }
 
     private List<Address> createAddresses(Session s, Person p, int number) {
@@ -98,11 +101,19 @@ public class CacheablePersonRepositoryTest {
         return result;
     }
 
+    private void clearAllCaches() {
+        val cacheNames = this.cacheManager.getCacheNames();
+        for (String cacheName : cacheNames) {
+            val cache = this.cacheManager.getCache(cacheName);
+            cache.clear();
+        }
+    }
+
     @Test @Transactional
     public void findAllPersons() {
         val persons = cacheablePersonRepository.findAll();
         assertThat(persons.size(), CoreMatchers.is(NUMBER_OF_PERSONS));
-        assertEquals(0, Address.getNoArgsConstructorCallCounter().get());
+        assertEquals(0, CacheableAddress.getNoArgsConstructorCallCounter().get());
         for (val person : persons) {
             assertNotNull(person.getAddresses());
             assertTrue(person.getAddresses().size() >= 0);

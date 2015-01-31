@@ -5,17 +5,22 @@ package org.uli.springdatajpa.entities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import lombok.val;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +37,9 @@ import org.uli.springdatajpa.entities.Person;
 @ContextConfiguration(classes = {TestConfig.class})
 public class PersonTest {
     @Autowired SessionFactory sessionFactory;
-
+    @Autowired EntityManagerFactory entityManagerFactory;
+    
+    EntityManager entityManager;
     private static boolean fInitialized = false;
     private static Map<Integer, Person> persons = new HashMap<Integer, Person>();
 
@@ -61,6 +68,12 @@ public class PersonTest {
         }
         Person.clearNoArgsConstructorCallCounter();
         Address.clearNoArgsConstructorCallCounter();
+        entityManager = entityManagerFactory.createEntityManager();
+    }
+    
+    @After
+    public void tearDown() {
+        entityManager.close();
     }
 
     private List<Address> createAddresses(Session s, Person p, int number) {
@@ -117,5 +130,74 @@ public class PersonTest {
         }
         assertEquals(10*NUMBER_OF_PERSONS, Person.getNoArgsConstructorCallCounter().get());
         assertEquals(0, Address.getNoArgsConstructorCallCounter().get());
+    }
+    
+    @Test
+    public void testEntityManagerNotEmpty() {
+            javax.persistence.Query query = entityManager.createQuery("select p from Person p");
+            @SuppressWarnings("unchecked")
+            List<Object> resultList = query.getResultList();
+            assertFalse(resultList.isEmpty());
+            assertEquals(persons.size(), resultList.size());
+            assertEquals(NUMBER_OF_PERSONS, Person.getNoArgsConstructorCallCounter().get());
+            assertEquals(0, Address.getNoArgsConstructorCallCounter().get());
+    }
+    @Test
+    public void testEntityManagerFind() {
+        for (Person p : persons.values()) {
+            Integer personId = p.getPersonId();
+            Person dbPerson = (Person) entityManager.find(Person.class, personId);
+            assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
+            assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
+            assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
+        }
+        // The entity manager seems to cache everything :)
+        assertEquals(/* 10* */NUMBER_OF_PERSONS, Person.getNoArgsConstructorCallCounter().get());
+        assertEquals(0, Address.getNoArgsConstructorCallCounter().get());
+    }
+    @Test
+    public void testEntityManagerFindWithAddresses() {
+        for (Person p : persons.values()) {
+            Integer personId = p.getPersonId();
+            Person dbPerson = (Person) entityManager.find(Person.class, personId);
+            assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
+            assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
+            assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
+            assertTrue(dbPerson.getAddresses().size() >= 0);
+        }
+        // The entity manager seems to cache everything :)
+        assertEquals(/* 10* */NUMBER_OF_PERSONS, Person.getNoArgsConstructorCallCounter().get());
+        assertEquals(780, Address.getNoArgsConstructorCallCounter().get());
+    }
+    @Test
+    public void testEntityManagerMultiFind() {
+        for (int i=0; i<10; ++i) {
+            for (Person p : persons.values()) {
+                Integer personId = p.getPersonId();
+                Person dbPerson = (Person) entityManager.find(Person.class, personId);
+                assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
+                assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
+                assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
+            }
+        }
+        // The entity manager seems to cache everything :)
+        assertEquals(/* 10* */NUMBER_OF_PERSONS, Person.getNoArgsConstructorCallCounter().get());
+        assertEquals(0, Address.getNoArgsConstructorCallCounter().get());
+    }
+    @Test
+    public void testEntityManagerMultiFindWithAddresses() {
+        for (int i=0; i<10; ++i) {
+            for (Person p : persons.values()) {
+                Integer personId = p.getPersonId();
+                Person dbPerson = (Person) entityManager.find(Person.class, personId);
+                assertEquals("Person-"+personId+", personId:",  personId, dbPerson.getPersonId());
+                assertEquals("Person-"+personId+", firstName:", p.getFirstName(), dbPerson.getFirstName());
+                assertEquals("Person-"+personId+", lastName:",  p.getLastName(),  dbPerson.getLastName());
+                assertTrue(dbPerson.getAddresses().size() >= 0);
+            }
+        }
+        // The entity manager seems to cache everything :)
+        assertEquals(/* 10* */NUMBER_OF_PERSONS, Person.getNoArgsConstructorCallCounter().get());
+        assertEquals(780, Address.getNoArgsConstructorCallCounter().get());
     }
 }

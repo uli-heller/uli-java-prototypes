@@ -25,6 +25,7 @@ import lombok.experimental.Builder;
 @ToString
 @Builder
 @AllArgsConstructor
+//@javax.persistence.Cacheable(true)
 public class CacheablePerson {
     @Id
     @Column(name="ID")
