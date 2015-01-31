@@ -2,18 +2,18 @@ apply plugin: "java"
 apply plugin: "eclipse"
 
 dependencies {
-   compile     hibernateJpa20Api
-   compile     lombok
-   testCompile hibernateEntitymanager
-   testCompile springBeans
-   testCompile springContext
-   testCompile springCore
-   testCompile springJdbc
-   testCompile springOrm
-   testCompile springTx
-   testCompile springTest
-   testCompile junit
-   testRuntime h2
+   compile     hibernateJpa20Api()
+   compile     lombok()
+   testCompile hibernateEntitymanager()
+   testCompile springBeans()
+   testCompile springContext()
+   testCompile springCore()
+   testCompile springJdbc()
+   testCompile springOrm()
+   testCompile springTx()
+   testCompile springTest()
+   testCompile junit()
+   testRuntime h2()
 }
 
 clean.doLast {

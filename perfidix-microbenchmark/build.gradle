@@ -2,11 +2,11 @@ apply plugin: "java"
 apply plugin: "eclipse"
 
 dependencies {
-   compile     commonsBeanutils
-   compile     springBeans
-   compile     guava
-   testCompile junit
-   testCompile perfidix
+   compile     commonsBeanutils()
+   compile     springBeans()
+   compile     guava()
+   testCompile junit()
+   testCompile perfidix()
 }
 
 clean.doLast {

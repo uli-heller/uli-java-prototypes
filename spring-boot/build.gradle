@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath springBootGradlePlugin;
+        classpath springBootGradlePlugin();
     }
 }
 
@@ -19,11 +19,11 @@ jar {
 }
 
 dependencies {
-    compile springBootStarterWeb
-    providedCompile springBootStarterTomcat
-    compile springBootStarterActuator
-    providedCompile tomcatEmbedJasper
-    compile jstl
-    testCompile junit
-    testCompile springBootStarterTest
+    compile springBootStarterWeb()
+    providedCompile springBootStarterTomcat()
+    compile springBootStarterActuator()
+    providedCompile tomcatEmbedJasper()
+    compile jstl()
+    testCompile junit()
+    testCompile springBootStarterTest()
 }

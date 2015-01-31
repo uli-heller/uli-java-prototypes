@@ -23,53 +23,70 @@ ext.perfidixVersion='3.6.9'; // U
 ext.slf4jVersion='1.7.7';
 ext.spockVersion='0.7-groovy-2.0'; // U
 ext.springBootVersion="1.1.5.RELEASE"; // U
-ext.springDataVersion="1.7.2.RELEASE"; // U
+ext.springDataVersion="1.6.4.RELEASE"; // U
 ext.springVersion='4.0.1.RELEASE'; // U
 ext.tomcatVersion='7.0.50';
 
-ext.commonsBeanutils="commons-beanutils:commons-beanutils:${commonsBeanUtilsVersion}"; // U
-ext.commonsCli="commons-cli:commons-cli:${commonsCliVersion}";
-ext.commonsLang3="org.apache.commons:commons-lang3:${commonsLang3Version}";
-ext.derby="org.apache.derby:derby:${derbyVersion}"
-ext.derbyclient="org.apache.derby:derbyclient:${derbyVersion}"
-ext.eclipsePersistenceJpa="org.eclipse.persistence:org.eclipse.persistence.jpa:${eclipseLinkVersion}";
-ext.groovyAll="org.codehaus.groovy:groovy-all:${groovyVersion}" // U
-ext.guava="com.google.guava:guava:${guavaVersion}";
-ext.h2="com.h2database:h2:${h2Version}"; // U
-ext.hamcrestAll="org.hamcrest:hamcrest-all:${hamcrestVersion}"; // U
-ext.hibernateEntitymanager="org.hibernate:hibernate-entitymanager:${hibernateVersion}"; // U
-ext.hibernateJpa20Api="org.hibernate.javax.persistence:hibernate-jpa-2.0-api:${hibernateJpa20ApiVersion}"; // U
-ext.javamelody="net.bull.javamelody:javamelody-core:${javamelodyVersion}";
-ext.javaxFaces="org.glassfish:javax.faces:${javaxFacesVersion}";
-ext.jrobin="org.jrobin:jrobin:${jrobinVersion}";
-ext.jstl="javax.servlet:jstl:${jstlVersion}"; // U
-ext.junit="junit:junit:${junitVersion}"; // U
-ext.log4jApi="org.apache.logging.log4j:log4j-api:${log4jVersion}";
-ext.log4jCore="org.apache.logging.log4j:log4j-core:${log4jVersion}";
-ext.log4jSlf4jImpl="org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}";
-ext.logbackClassic="ch.qos.logback:logback-classic:${logbackVersion}";
-ext.logbackCore="ch.qos.logback:logback-core:${logbackVersion}";
-ext.lombok="org.projectlombok:lombok:${lombokVersion}"; // U
-ext.perfidix="org.perfidix:perfidix:${perfidixVersion}"; // U
-ext.slf4jApi="org.slf4j:slf4j-api:${slf4jVersion}";
-ext.slf4jLog4j12="org.slf4j:slf4j-log4j12:${slf4jVersion}";
-ext.spockCore="org.spockframework:spock-core:${spockVersion}"; // U
-ext.springBeans="org.springframework:spring-beans:${springVersion}"; // U
-ext.springBootGradlePlugin="org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"; // U
-ext.springBootStarterActuator="org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"; // U
-ext.springBootStarterTest="org.springframework.boot:spring-boot-starter-test:${springBootVersion}"; // U
-ext.springBootStarterTomcat="org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}"; // U
-ext.springBootStarterWeb="org.springframework.boot:spring-boot-starter-web:${springBootVersion}";     // U
-ext.springContext="org.springframework:spring-context:${springVersion}"; // U
-ext.springCore="org.springframework:spring-core:${springVersion}"; // U
-ext.springDataJpa="org.springframework.data:spring-data-jpa:${springDataVersion}"; // U
-ext.springJdbc="org.springframework:spring-jdbc:${springVersion}"; // U
-ext.springOrm="org.springframework:spring-orm:${springVersion}"; // U
-ext.springTx="org.springframework:spring-tx:${springVersion}"; // U
-ext.springTest="org.springframework:spring-test:${springVersion}"; // U
-ext.tomcatEmbedCore="org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}";
-ext.tomcatEmbedJasper="org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"; // U
-ext.tomcatEmbedLoggingJuli="org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}";
-ext.tomcatJspApi="org.apache.tomcat:tomcat-jsp-api:${tomcatVersion}";
-ext.tomcatJasper="org.apache.tomcat:tomcat-jasper:${tomcatVersion}";
-ext.tomcatJasperEl="org.apache.tomcat:tomcat-jasper-el:${tomcatVersion}";
+// Originally, we defined the artifact like this:
+//     ext.springOrm="org.springframework:spring-orm:${springVersion}";
+// Within the "build.gradle" files, you'd refer to them like this:
+//     compile springOrm
+// The drawback of this approach is the fact that it isn't easy to override the
+// version of the artifact.
+//
+// To overcome this limitation, we define the artifact like this:
+//     ext.springOrm={ it -> return "org.springframework:spring-orm:${it?:springVersion}"; }
+// Within the "build.gradle" files, you'll refer to them like this:
+//     compile springOrm()
+// or
+//     compile springOrm("3.2.13.RELEASE")
+// or
+//     springVersion="3.2.13.RELEASE"
+//     compile springOrm()
+ext.commonsBeanutils={ it -> return "commons-beanutils:commons-beanutils:${it?:commonsBeanUtilsVersion}"; } // U
+ext.commonsCli={ it -> return "commons-cli:commons-cli:${it?:commonsCliVersion}"; }
+ext.commonsLang3={ it -> return "org.apache.commons:commons-lang3:${it?:commonsLang3Version}"; }
+ext.derby={ it -> return "org.apache.derby:derby:${it?:derbyVersion}"; }
+ext.derbyclient={ it -> return "org.apache.derby:derbyclient:${it?:derbyVersion}"; }
+ext.eclipsePersistenceJpa={ it -> return "org.eclipse.persistence:org.eclipse.persistence.jpa:${it?:eclipseLinkVersion}"; }
+ext.groovyAll={ it -> return "org.codehaus.groovy:groovy-all:${it?:groovyVersion}"; } // U
+ext.guava={ it -> return "com.google.guava:guava:${it?:guavaVersion}"; }
+ext.h2={ it -> return "com.h2database:h2:${it?:h2Version}"; } // U
+ext.hamcrestAll={ it -> return "org.hamcrest:hamcrest-all:${it?:hamcrestVersion}"; } // U
+ext.hibernateEntitymanager={ it -> return "org.hibernate:hibernate-entitymanager:${it?:hibernateVersion}"; } // U
+ext.hibernateJpa20Api={ it -> return "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:${it?:hibernateJpa20ApiVersion}"; } // U
+ext.javamelody={ it -> return "net.bull.javamelody:javamelody-core:${it?:javamelodyVersion}"; }
+ext.javaxFaces={ it -> return "org.glassfish:javax.faces:${it?:javaxFacesVersion}"; }
+ext.jrobin={ it -> return "org.jrobin:jrobin:${it?:jrobinVersion}"; }
+ext.jstl={ it -> return "javax.servlet:jstl:${it?:jstlVersion}"; } // U
+ext.junit={ it -> return "junit:junit:${it?:junitVersion}"; } // U
+ext.log4jApi={ it -> return "org.apache.logging.log4j:log4j-api:${it?:log4jVersion}"; }
+ext.log4jCore={ it -> return "org.apache.logging.log4j:log4j-core:${it?:log4jVersion}"; }
+ext.log4jSlf4jImpl={ it -> return "org.apache.logging.log4j:log4j-slf4j-impl:${it?:log4jVersion}"; }
+ext.logbackClassic={ it -> return "ch.qos.logback:logback-classic:${it?:logbackVersion}"; }
+ext.logbackCore={ it -> return "ch.qos.logback:logback-core:${it?:logbackVersion}"; }
+ext.lombok={ it -> return "org.projectlombok:lombok:${it?:lombokVersion}"; } // U
+ext.perfidix={ it -> return "org.perfidix:perfidix:${it?:perfidixVersion}"; } // U
+ext.slf4jApi={ it -> return "org.slf4j:slf4j-api:${it?:slf4jVersion}"; }
+ext.slf4jLog4j12={ it -> return "org.slf4j:slf4j-log4j12:${it?:slf4jVersion}"; }
+ext.spockCore={ it -> return "org.spockframework:spock-core:${it?:spockVersion}"; } // U
+ext.springBeans={ it -> return "org.springframework:spring-beans:${it?:springVersion}"; } // U
+ext.springBootGradlePlugin={ it -> return "org.springframework.boot:spring-boot-gradle-plugin:${it?:springBootVersion}"; } // U
+ext.springBootStarterActuator={ it -> return "org.springframework.boot:spring-boot-starter-actuator:${it?:springBootVersion}"; } // U
+ext.springBootStarterTest={ it -> return "org.springframework.boot:spring-boot-starter-test:${it?:springBootVersion}"; } // U
+ext.springBootStarterTomcat={ it -> return "org.springframework.boot:spring-boot-starter-tomcat:${it?:springBootVersion}"; } // U
+ext.springBootStarterWeb={ it -> return "org.springframework.boot:spring-boot-starter-web:${it?:springBootVersion}"; }     // U
+ext.springContext={ it -> return "org.springframework:spring-context:${it?:springVersion}"; } // U
+ext.springCore={ it -> return "org.springframework:spring-core:${it?:springVersion}"; } // U
+ext.springDataJpa={ it -> return "org.springframework.data:spring-data-jpa:${it?:springDataVersion}"; } // U
+ext.springJdbc={ it -> return "org.springframework:spring-jdbc:${it?:springVersion}"; } // U
+//ext.springOrm="org.springframework:spring-orm:${springVersion}"; // U
+ext.springOrm={ it -> return "org.springframework:spring-orm:${it?:springVersion}"; }
+ext.springTx={ it -> return "org.springframework:spring-tx:${it?:springVersion}"; } // U
+ext.springTest={ it -> return "org.springframework:spring-test:${it?:springVersion}"; } // U
+ext.tomcatEmbedCore={ it -> return "org.apache.tomcat.embed:tomcat-embed-core:${it?:tomcatVersion}"; }
+ext.tomcatEmbedJasper={ it -> return "org.apache.tomcat.embed:tomcat-embed-jasper:${it?:tomcatVersion}"; } // U
+ext.tomcatEmbedLoggingJuli={ it -> return "org.apache.tomcat.embed:tomcat-embed-logging-juli:${it?:tomcatVersion}"; }
+ext.tomcatJspApi={ it -> return "org.apache.tomcat:tomcat-jsp-api:${it?:tomcatVersion}"; }
+ext.tomcatJasper={ it -> return "org.apache.tomcat:tomcat-jasper:${it?:tomcatVersion}"; }
+ext.tomcatJasperEl={ it -> return "org.apache.tomcat:tomcat-jasper-el:${it?:tomcatVersion}"; }

@@ -1,21 +1,28 @@
 apply plugin: "java"
 apply plugin: "eclipse"
 
+springDataVersion='1.6.4.RELEASE';
+springVersion='3.2.13.RELEASE';
+
 dependencies {
-   compile     hibernateJpa20Api
-   compile     springDataJpa
-   compile     lombok
-   compile     hibernateEntitymanager
-   //testCompile springBeans
-   //testCompile springContext
-   //testCompile springCore
-   //testCompile springJdbc
-   testCompile springOrm
-   //testCompile springTx
-   testCompile springTest
-   testCompile junit
-   testCompile hamcrestAll
-   testRuntime h2
+   compile     guava()
+   compile     hibernateEntitymanager()
+   compile     hibernateJpa20Api()
+   compile     lombok()
+   compile     springDataJpa()
+   compile     springOrm() // in order to use 3.2.13 for compilation
+   compile     slf4jApi()
+   compile     slf4jLog4j12()
+   //testCompile springBeans()
+   //testCompile springContext()
+   //testCompile springCore()
+   //testCompile springJdbc()
+   //testCompile springOrm()
+   //testCompile springTx()
+   testCompile springTest()
+   testCompile junit()
+   testCompile hamcrestAll()
+   testRuntime h2()
 }
 
 clean.doLast {
