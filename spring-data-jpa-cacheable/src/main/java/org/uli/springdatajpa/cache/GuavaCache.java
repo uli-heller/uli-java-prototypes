@@ -42,10 +42,10 @@ public class GuavaCache implements org.springframework.cache.Cache {
         this.store.invalidateAll();
     }
 
-    @Override
-    public <T> T get(Object key, Class<T> type) {
-        @SuppressWarnings("unchecked")
-        T result = (T) this.get(key).get();
-        return result;
-    }
+    //@Override
+    //public <T> T get(Object key, Class<T> type) {
+    //    @SuppressWarnings("unchecked")
+    //    T result = (T) this.get(key).get();
+    //    return result;
+    //}
 }

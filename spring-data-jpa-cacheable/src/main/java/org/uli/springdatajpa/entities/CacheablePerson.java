@@ -42,7 +42,7 @@ public class CacheablePerson {
     
     @OneToMany(cascade=CascadeType.REMOVE, mappedBy="personId")
     @Getter @Setter
-    private List<Address> addresses;
+    private List<CacheableAddress> addresses;
     
     @Getter
     static private final AtomicInteger noArgsConstructorCallCounter = new AtomicInteger(0);

@@ -16,6 +16,7 @@ public class GuavaCacheManager extends SimpleCacheManager {
     
     @Override
     public Cache getCache(String name) {
+        log.trace("-> name={}", name);
         Cache result = super.getCache(name);
         if (result == null) {
             log.debug(".: Creating a new cache '{}'", name);
@@ -24,6 +25,7 @@ public class GuavaCacheManager extends SimpleCacheManager {
             this.addCache(guavaCache);
             result = super.getCache(name);
         }
+        log.trace("<- result={}", result);
         return result;
     }
 }

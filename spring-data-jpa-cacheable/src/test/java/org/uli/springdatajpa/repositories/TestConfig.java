@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 //@PropertySources(value = {@PropertySource(value = "/testJdbc.properties")})
 @PropertySource("/testJdbc.properties")
-@ComponentScan(basePackages= {"org.uli"})
+@ComponentScan(basePackages= {"org.uli.springdatajpa.repositories"})
 @EnableJpaRepositories("org.uli.springdatajpa.repositories")
 public class TestConfig {
     @Autowired
