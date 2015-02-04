@@ -7,7 +7,11 @@ import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.RMISocketFactory;
 
 import javax.management.MBeanServer;
@@ -68,7 +72,7 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
     @Override
     public void destroy() {
         logger.debug("->");
-        this.stop();this.
+        this.stop();
         logger.debug("<-");
     }
 
@@ -77,7 +81,7 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ;
+        this.start(22334);
     }
 
     /* (non-Javadoc)
@@ -86,7 +90,7 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         logger.debug("->");
-        this.destroy();
+        //this.destroy();
         logger.debug("<-");
     }
 
@@ -140,9 +144,13 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
                 // Create an instance of our own socket factory (see below)
                 RMISocketFactory factory = new LocalHostSocketFactory();
                 // Set it as default
-                RMISocketFactory.setSocketFactory(factory);
+                try {
+                    RMISocketFactory.setSocketFactory(factory);
+                } catch (SocketException ign) {
+                    ;
+                }
                 // Create our registry
-                LocateRegistry.createRegistry(port);
+                Registry registry = LocateRegistry.createRegistry(port);
                 // Get the MBeanServer and setup a JMXConnectorServer
                 MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
                 JMXServiceURL url = new JMXServiceURL("service:jmx:rmi://" + BINDING_ADDRESS
@@ -155,7 +163,7 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
                             + "/jmxrmi");
                 rmiServer = JMXConnectorServerFactory.newJMXConnectorServer(url, null, mbs);
                 rmiServer.start();
-                jmxHandle = new jmxHandle(rmiServer);
+                jmxHandle = new jmxHandle(rmiServer, registry);
             } catch (Exception ex) {
                 logger.error("Error when starting the JmxRmiServer", ex);
             }
@@ -167,13 +175,16 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
 
             Logger logger = LoggerFactory.getLogger(jmxHandle.class);
             JMXConnectorServer rmiServer;
+            Registry registry;
 
             protected jmxHandle() {
                 rmiServer = null;
+                registry = null;
             }
 
-            protected jmxHandle(JMXConnectorServer rmiServer) {
+            protected jmxHandle(JMXConnectorServer rmiServer, Registry registry) {
                 this.rmiServer = rmiServer;
+                this.registry = registry;
             }
 
             public synchronized void stop() {
@@ -185,6 +196,16 @@ public class JmxServlet extends HttpServlet implements ServletContextListener {
                         logger.error("Error when stopping the JmxRmiServer", e);
                     }
                     this.rmiServer = null;
+                }
+                if (this.registry != null) {
+                    try {
+                        for (String n : this.registry.list()) {
+                            registry.unbind(n);
+                        }
+                    } catch (RemoteException | NotBoundException e) {
+                        logger.error("Error when stopping the Registry", e);
+                    }
+                    this.registry = null;
                 }
                 logger.debug("<-");
             }

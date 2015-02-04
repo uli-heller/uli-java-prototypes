@@ -23,7 +23,7 @@
          fully-qualified @Configuration classes -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>org.uli.jmx.SpringConfig</param-value>
+        <param-value>org.uli.jmx.annotationmbeanexporter.SpringConfig</param-value>
     </context-param>
 
   <!-- Welcome page list -->

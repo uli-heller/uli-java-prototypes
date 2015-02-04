@@ -1,4 +1,4 @@
-package org.uli.jmx;
+package org.uli.jmx.mbeanexporter;
 
 import java.math.BigDecimal;
 
