@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <title>LOCALHOST-JMX</title>
+</head>
+
+<body>
+  <h3>LOCALHOST-JMX</h3>
+  <p>
+     Dies ist eine einfache Web-Anwendung, die einen TCP-Port für JMX
+     öffnet. Im Gegensatz zu "normalen" JMX-Ports lauscht unser Port
+     nur auf localhost.
+  </p>
+  <p>
+     Die grundsätzliche Idee hierzu kommt von
+     <a href="http://stackoverflow.com/questions/347056/restricting-jmx-to-localhost">StackOverflow</a>.
+  </p>
+  <p>
+    <a href="jmx/start?port=22334">Start</a>
+  </p>
+  <p>
+    <a href="jmx/stop">Stop</a>
+  </p>
+</body>
+</html>
