@@ -15,9 +15,10 @@ gretty {
 
 dependencies {
   providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+  compile apacheLog4jExtras()
+  compile lombok()
   compile slf4jApi()
   compile slf4jLog4j12()
-  compile apacheLog4jExtras()
   compile springWeb()
 }
 
