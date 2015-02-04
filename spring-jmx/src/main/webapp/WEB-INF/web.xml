@@ -9,6 +9,22 @@
   <listener>
     <listener-class>org.uli.jmx.JmxServlet</listener-class>
   </listener>
+  <!-- Bootstrap the root application context as usual using ContextLoaderListener -->
+  <listener>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+    <!-- Configure ContextLoaderListener to use JavaConfigWebApplicationContext
+         instead of the default XmlWebApplicationContext -->
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <!-- Configuration locations must consist of one or more comma- or space-delimited
+         fully-qualified @Configuration classes -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>org.uli.jmx.SpringConfig</param-value>
+    </context-param>
 
   <!-- Welcome page list -->
   <welcome-file-list>

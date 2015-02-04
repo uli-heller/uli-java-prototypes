@@ -6,6 +6,7 @@ apply plugin: "application"
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 mainClassName = "org.uli.jmx.MainV3"
+springVersion = "3.2.13.RELEASE";
 
 gretty {
   // supported values:

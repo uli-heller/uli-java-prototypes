@@ -7,15 +7,16 @@
         </layout>
     </appender>
 
-    <appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
-        <param name="File" value="spring-jmx.log"/>
-        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-           <param name="FileNamePattern" value="spring-jmx.log.%d" />
-        </rollingPolicy>
-        <layout class="org.apache.log4j.PatternLayout">
+	<appender name="file" class="org.apache.log4j.RollingFileAppender">
+	   <param name="append" value="false" />
+	   <param name="maxFileSize" value="10KB" />
+	   <param name="maxBackupIndex" value="5" />
+	   <!-- For Tomcat -->
+	   <param name="file" value="spring-jmx.log" />
+	   <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} [%t] %5p %C:%L-%M() - %m%n" />
-        </layout>
-    </appender>
+	   </layout>
+	</appender>
 
     <root>
         <priority value="trace"></priority>
