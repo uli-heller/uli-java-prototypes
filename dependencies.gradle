@@ -86,6 +86,7 @@ ext.springJdbc={ it -> return "org.springframework:spring-jdbc:${it?:springVersi
 ext.springOrm={ it -> return "org.springframework:spring-orm:${it?:springVersion}"; }
 ext.springTx={ it -> return "org.springframework:spring-tx:${it?:springVersion}"; } // U
 ext.springTest={ it -> return "org.springframework:spring-test:${it?:springVersion}"; } // U
+ext.springWeb={ it -> return "org.springframework:spring-web:${it?:springVersion}"; } // U
 ext.tomcatEmbedCore={ it -> return "org.apache.tomcat.embed:tomcat-embed-core:${it?:tomcatVersion}"; }
 ext.tomcatEmbedJasper={ it -> return "org.apache.tomcat.embed:tomcat-embed-jasper:${it?:tomcatVersion}"; } // U
 ext.tomcatEmbedLoggingJuli={ it -> return "org.apache.tomcat.embed:tomcat-embed-logging-juli:${it?:tomcatVersion}"; }

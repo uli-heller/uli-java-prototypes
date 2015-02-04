@@ -18,8 +18,7 @@ dependencies {
   compile slf4jApi()
   compile slf4jLog4j12()
   compile apacheLog4jExtras()
-  compile 'org.springframework:spring-jmx:+'
-  compile 'org.springframework:spring-remoting:+'
+  compile springWeb()
 }
 
 repositories {
