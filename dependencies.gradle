@@ -1,5 +1,6 @@
 // Currently not used at all
 
+ext.apacheLog4jExtrasVersion='1.1'; // U
 ext.commonsBeanUtilsVersion='1.9.1'; // U
 ext.commonsLang3Version='3.1';
 ext.commonsCliVersion='1.2';
@@ -43,6 +44,7 @@ ext.tomcatVersion='7.0.50';
 // or
 //     springVersion="3.2.13.RELEASE"
 //     compile springOrm()
+ext.apacheLog4jExtras = { it -> return "log4j:apache-log4j-extras:${it?:apacheLog4jExtrasVersion}"; } // U
 ext.commonsBeanutils={ it -> return "commons-beanutils:commons-beanutils:${it?:commonsBeanUtilsVersion}"; } // U
 ext.commonsCli={ it -> return "commons-cli:commons-cli:${it?:commonsCliVersion}"; }
 ext.commonsLang3={ it -> return "org.apache.commons:commons-lang3:${it?:commonsLang3Version}"; }
