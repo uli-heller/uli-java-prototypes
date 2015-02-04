@@ -8,9 +8,9 @@
     </appender>
 
     <appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
-        <param name="File" value="localhost-jmx.log"/>
+        <param name="File" value="spring-jmx.log"/>
         <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-           <param name="FileNamePattern" value="localhost-jmx.log.%d" />
+           <param name="FileNamePattern" value="spring-jmx.log.%d" />
         </rollingPolicy>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} [%t] %5p %C:%L-%M() - %m%n" />

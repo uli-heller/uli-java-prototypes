@@ -26,5 +26,5 @@ repositories {
 }
 
 clean.doLast {
-  ant.delete(file: 'localhost-jmx.log');
+  ant.delete(file: 'spring-jmx.log');
 }
