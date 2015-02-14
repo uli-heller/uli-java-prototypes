@@ -10,11 +10,6 @@
     <listener-class>org.uli.crash.CrashServlet</listener-class>
   </listener>
 
-  <!-- Welcome page list -->
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
-
   <servlet>
     <servlet-name>Crash Servlet</servlet-name>
     <servlet-class>org.uli.crash.CrashServlet</servlet-class>
@@ -26,5 +21,23 @@
     <servlet-name>Crash Servlet</servlet-name>
     <url-pattern>/crash/*</url-pattern>
   </servlet-mapping>
+
+  <listener>
+    <listener-class>org.crsh.plugin.WebPluginLifeCycle</listener-class>
+  </listener>
+
+  <context-param>
+    <param-name>crash.mountpointconfig.conf</param-name>
+    <param-value>classpath:/crash/</param-value>
+  </context-param>
+  <context-param>
+    <param-name>crash.mountpointconfig.cmd</param-name>
+    <param-value>classpath:/crash/commands/</param-value>
+  </context-param>
+
+  <!-- Welcome page list -->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
 
 </web-app>

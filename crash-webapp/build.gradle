@@ -17,6 +17,7 @@ dependencies {
   compile lombok()
   compile slf4jApi()
   compile slf4jLog4j12()
+  compile 'org.crashub:crash.connectors.telnet:+'
 }
 
 repositories {
