@@ -32,7 +32,7 @@
   </context-param>
   <context-param>
     <param-name>crash.mountpointconfig.cmd</param-name>
-    <param-value>classpath:/crash/commands/</param-value>
+    <param-value>classpath:/crash/commands/;classpath:/org/uli/crash/commands/</param-value>
   </context-param>
 
   <!-- Welcome page list -->
