@@ -1,0 +1,29 @@
+apply plugin: "java"
+apply plugin: "war"
+apply plugin: "eclipse"
+apply plugin: "application"
+//apply plugin: "eclipse-wtp"
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+gretty {
+  // supported values:
+  // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
+  servletContainer = 'tomcat7'
+  logbackConfigFile = 'src/test/resources/gretty-logback.xml'
+}
+
+dependencies {
+  providedCompile javaxServletApi()
+  compile lombok()
+  compile slf4jApi()
+  compile slf4jLog4j12()
+}
+
+repositories {
+    mavenCentral()
+}
+
+clean.doLast {
+  ant.delete(file: 'crash-webapp.log');
+  ant.delete(file: 'crash-webapp-gretty.log');
+}

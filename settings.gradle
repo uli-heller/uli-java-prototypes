@@ -1,5 +1,6 @@
 include 'builder-with-subclasses'
 include 'conversation-scope'
+include 'crash-webapp'
 include 'guava-cachebuilder'
 include 'hexdump'
 include 'host-lookup'
