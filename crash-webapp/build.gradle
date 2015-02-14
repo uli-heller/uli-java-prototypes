@@ -17,7 +17,11 @@ dependencies {
   compile lombok()
   compile slf4jApi()
   compile slf4jLog4j12()
-  compile 'org.crashub:crash.connectors.telnet:+'
+  compile 'org.codehaus.groovy:groovy-all:+'
+  compile('org.crashub:crash.connectors.telnet:+') {
+      exclude(module: 'servlet-api')
+      //exclude(module: 'groovy-all')
+  }
 }
 
 repositories {

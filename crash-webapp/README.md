@@ -139,3 +139,15 @@ ls: Zugriff auf /error nicht möglich: Datei oder Verzeichnis nicht gefunden
 
 %
 ```
+
+Aktualisierte Abhängigkeiten
+----------------------------
+
+Wenn wir nicht wollen, dass Groovy-1.8.9 und servlet-api-2.3 in die war-Datei
+gelangen, dann müssen wir in "build.gradle" diese Änderungen vornehmen:
+
+* exclude module: 'servlet-api'
+* compile 'org.codehaus.groovy:groovy-all:+'
+
+Damit wird servlet-api-2.3.jar dann weggelassen und von Groovy wird die neueste
+Version beigepackt (2.4.0).
