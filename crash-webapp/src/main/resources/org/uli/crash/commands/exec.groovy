@@ -10,4 +10,4 @@ if (outSb) {
 if (errSb) {
   result.append('err:\n').append(errSb);
 }
-return result;
+return result.toString();
