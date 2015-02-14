@@ -31,7 +31,7 @@ Escape character is '^]'.
  `._____.'  |____|____| `.________|  `._____.'  |____|____|
 
 Follow and support the project on http://www.crashub.org
-Welcome to ulinuc + !
+Welcome to mypc + !
 It is Sat Feb 14 09:27:31 CET 2015 now
 
 % 
