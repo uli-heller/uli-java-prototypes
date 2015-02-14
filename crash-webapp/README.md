@@ -73,6 +73,13 @@ It is Sat Feb 14 10:03:21 CET 2015 now
 hello world!
 ```
 
+Man kann im Script auch Argumente auswerten:
+
+```
+def greeting = binding.args.size()==0 ? "world" : binding.args.join(",");
+return "Hello ${greeting}!";
+```
+
 Bauen
 -----
 
