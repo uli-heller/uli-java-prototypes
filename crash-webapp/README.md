@@ -80,6 +80,49 @@ def greeting = args.size()==0 ? "world" : args.join(",");
 return "Hello ${greeting}!";
 ```
 
+Ausführen von System-Kommandos
+------------------------------
+
+Hierzu wird ein Skript abgelegt unter "src/main/resources/org/uli/crash/commands/exec.groovy":
+
+```
+def outSb = new StringBuilder();
+def errSb = new StringBuilder();
+def proc = args.execute();
+proc.consumeProcessOutput(outSb, errSb);
+proc.waitFor();
+def result = new StringBuilder();
+if (outSb) {
+  result.append('out:\n').append(outSb);
+}
+if (errSb) {
+  result.append('err:\n').append(errSb);
+}
+return result;
+```
+
+Das kann man dann so nutzen:
+
+```
+% exec pwd
+out:
+/home/uli/git/uli-java-prototypes/crash-webapp
+
+% exec ls . /error
+out:
+.:
+bin
+build
+build.gradle
+crash-webapp-gretty.log
+README.md
+src
+err:
+ls: Zugriff auf /error nicht möglich: Datei oder Verzeichnis nicht gefunden
+
+%
+```
+
 Bauen
 -----
 
