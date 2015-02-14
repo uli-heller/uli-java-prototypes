@@ -1,2 +1,2 @@
-def greeting = binding.args.size()==0 ? "world" : binding.args.join(",");
+def greeting = args.size()==0 ? "world" : args.join(",");
 return "Hello ${greeting}!";
