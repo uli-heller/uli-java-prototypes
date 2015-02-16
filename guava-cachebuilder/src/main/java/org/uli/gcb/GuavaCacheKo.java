@@ -14,7 +14,7 @@ public class GuavaCacheKo {
         .expireAfterWrite(10, TimeUnit.MINUTES)
 	.build(myCacheLoader);
 
-    private class Pair {
+    private static class Pair {
 	int a;
 	int b;
 	public Pair(int a, int b) {

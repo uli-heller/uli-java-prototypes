@@ -16,7 +16,7 @@ public class GuavaCache {
 	.build(myCacheLoader);
 
     @Data
-    private class Pair {
+    private static class Pair {
 	int a;
 	int b;
 	public Pair(int a, int b) {

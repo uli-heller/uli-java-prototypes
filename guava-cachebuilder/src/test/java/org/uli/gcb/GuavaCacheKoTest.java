@@ -14,7 +14,7 @@ public class GuavaCacheKoTest {
       String s2 = gc.getPair(2, 3);
       assertEquals(2, gc.cnt);
       assertEquals("this pair is (2,3) : 2", s2);
-      String s1 = gc.getPair(1, 2);
+      /*String s1 =*/ gc.getPair(1, 2);
       //assertEquals(2, gc.cnt); // this fails
       //assertEquals("this pair is (1,2) : 1", s1); // this fails, too
   }
