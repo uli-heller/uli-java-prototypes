@@ -7,9 +7,11 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import static org.junit.Assert.*;
 
+@Ignore
 public class EverySecondTest {
 
     @BeforeClass
