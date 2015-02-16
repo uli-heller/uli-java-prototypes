@@ -210,7 +210,8 @@ public class TeeFilter implements Filter {
         }
 
         public PrintWriter getWriter() throws IOException {
-            return new PrintWriter(getOutputStream());
+            java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(getOutputStream(), "UTF-8");
+            return new PrintWriter(osw);
         }
 
         public ServletOutputStream getOutputStream() throws IOException {
