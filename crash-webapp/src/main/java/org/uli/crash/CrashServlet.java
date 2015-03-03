@@ -18,13 +18,14 @@ public class CrashServlet extends HttpServlet implements ServletContextListener 
      * 
      */
     private static final long serialVersionUID = 1L;
-
+    
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("->");
         response.setContentType("text/html");
         String pathInfo = request.getPathInfo();
         PrintWriter out = response.getWriter();
+        logAll();
         if (pathInfo == null) {
             send(out, "Was soll das?");
         } else {
@@ -37,6 +38,14 @@ public class CrashServlet extends HttpServlet implements ServletContextListener 
             }
         }
         log.debug("<-");
+    }
+
+    private void logAll() {
+        log.trace("trace");
+        log.debug("debug");
+        log.info("info");
+        log.warn("warn");
+        log.error("error");
     }
 
     @Override
