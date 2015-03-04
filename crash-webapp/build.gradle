@@ -6,6 +6,12 @@ apply plugin: "eclipse"
 //apply plugin: "eclipse-wtp"
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
+configurations {
+  grettyRunnerTomcat7 {
+    exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+  }
+}
+
 gretty {
   // supported values:
   // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
