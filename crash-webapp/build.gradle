@@ -4,8 +4,12 @@ apply plugin: "war"
 apply plugin: "eclipse"
 //apply plugin: "application"
 //apply plugin: "eclipse-wtp"
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+apply from: 'gretty.plugin'
 
+// required for gretty 1.1.9, 1.2.0
+// in order to use log4j logging within
+// the webapp
+// https://github.com/akhikhl/gretty/issues/145
 configurations {
   grettyRunnerTomcat7 {
     exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
