@@ -1,0 +1,18 @@
+apply plugin: "java"
+apply plugin: "war"
+apply plugin: "eclipse"
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+gretty {
+  // supported values:
+  // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
+  servletContainer = 'tomcat7'
+}
+
+dependencies {
+  compile 'org.webjars:bootstrap:3.3.2-2'
+}
+
+repositories {
+    mavenCentral()
+}
