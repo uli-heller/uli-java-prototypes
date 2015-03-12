@@ -14,6 +14,22 @@ containing the output of the latest build.
 * Is almost empty
 * Depends on a
 
+## This Works OK
+
+Run:
+
+```
+cd b
+gradle build
+```
+
+Deploy b/build/libs/b.war into a tomcat7
+
+Browse to:
+
+* http://localhost:8080/b/test.txt -> OK
+* http://localhost:8080/b/doc/a/test.txt -> KO, 404 not found
+
 ## The Issue
 
 Run:
