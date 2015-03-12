@@ -1,0 +1,1 @@
+a/src/main/resources/META-INF/resources/test.txt

@@ -1,0 +1,6 @@
+ext.jarTasks = tasks.withType(Jar);
+jarTasks.all {
+  into("META-INF/resources/doc/${project.name}") {
+    from 'doc'
+  }
+}
