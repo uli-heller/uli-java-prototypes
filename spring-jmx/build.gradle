@@ -3,16 +3,16 @@ apply plugin: "war"
 apply plugin: "eclipse"
 apply plugin: "application"
 //apply plugin: "eclipse-wtp"
-apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+//apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
 mainClassName = "org.uli.jmx.MainV3"
 springVersion = "3.2.13.RELEASE";
 
-gretty {
-  // supported values:
-  // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
-  servletContainer = 'tomcat7'
-}
+//gretty {
+//  // supported values:
+//  // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
+//  servletContainer = 'tomcat7'
+//}
 
 dependencies {
   providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
