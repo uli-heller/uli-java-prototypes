@@ -36,7 +36,9 @@ Diese Prototypen gibt's:
 
 * [spring-data-jpa-cacheable](spring-data-jpa-cacheable) ... Verwendung von SpringDataJPA mit GuavaCache
 
-* [view-scope](view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
+* [spring-session-scope](spring-session-scope) ... Zusammenspiel von JSF und SpringBeans mit SessionScope
+
+* [spring-view-scope](spring-view-scope) ... Zusammenspiel von JSF-View-Scope und SpringBeans
 
 Dies sind "gescheiterte" Prototypen:
 

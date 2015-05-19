@@ -4,9 +4,9 @@ SESSION-SCOPE
 Some tests repated to web applications using session scope.
 
 * Build: `../gradlew war`
-* Run: `../gradlew runJetty`
+* Run: `../gradlew jettyRun`
 
-When jetty is running, head your browser to <http://localhost:8080/session-scope>.
+When jetty is running, head your browser to <http://localhost:8080/spring-session-scope>.
 
 Clicking on "New counter page (existing session)" opens a new
 browser window/tab reusing the existing session. Opening multiple
