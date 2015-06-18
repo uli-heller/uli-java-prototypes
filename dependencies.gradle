@@ -25,9 +25,9 @@ ext.lombokVersion='1.12.4'; // U
 ext.perfidixVersion='3.6.9'; // U
 ext.slf4jVersion='1.7.7';
 ext.spockVersion='0.7-groovy-2.0'; // U
-ext.springBootVersion="1.1.5.RELEASE"; // U
-ext.springDataVersion="1.6.4.RELEASE"; // U
-ext.springVersion='4.0.1.RELEASE'; // U
+ext.springBootVersion="1.2.3.RELEASE"; // U
+ext.springDataVersion="1.8.0.RELEASE"; // U
+ext.springVersion='4.1.6.RELEASE'; // U
 ext.tomcatVersion='7.0.50';
 
 // Originally, we defined the artifact like this:
