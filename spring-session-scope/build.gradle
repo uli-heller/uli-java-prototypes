@@ -4,7 +4,7 @@ apply plugin: "jetty"
 //apply plugin: "eclipse"
 apply plugin: "eclipse-wtp"
 
-String springVersion='3.2.2.RELEASE';
+String springVersion='3.2.13.RELEASE';
 
 dependencies {
 //    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
