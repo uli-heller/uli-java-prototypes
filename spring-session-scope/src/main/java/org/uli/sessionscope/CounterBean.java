@@ -3,10 +3,11 @@ package org.uli.sessionscope;
  
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
- 
+import java.io.Serializable;
+
 @Component
 @Scope("session")
-public class CounterBean {
+public class CounterBean implements Serializable {
  
     private int counter = 0;
  

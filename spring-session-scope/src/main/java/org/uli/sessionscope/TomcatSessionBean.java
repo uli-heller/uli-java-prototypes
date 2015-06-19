@@ -7,10 +7,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.Serializable;
 
 @Component
 @Scope("session")
-public class TomcatSessionBean {
+public class TomcatSessionBean implements Serializable {
     public String getSessionId() {
 	FacesContext fCtx = FacesContext.getCurrentInstance();
 	HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
