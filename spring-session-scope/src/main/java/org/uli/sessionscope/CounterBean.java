@@ -9,7 +9,11 @@ import java.io.Serializable;
 @Scope("session")
 public class CounterBean implements Serializable {
  
-    private int counter = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4563480385097920945L;
+	private int counter = 0;
  
     public int getCounter() {
         return counter;

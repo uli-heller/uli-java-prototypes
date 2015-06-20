@@ -12,7 +12,11 @@ import java.io.Serializable;
 @Component
 @Scope("session")
 public class TomcatSessionBean implements Serializable {
-    public String getSessionId() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6438652644990408418L;
+	public String getSessionId() {
 	FacesContext fCtx = FacesContext.getCurrentInstance();
 	HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
 	String sessionId = session.getId();
