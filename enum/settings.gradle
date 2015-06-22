@@ -1,0 +1,3 @@
+include \
+  'use-enum', \
+  'enum-1-9'

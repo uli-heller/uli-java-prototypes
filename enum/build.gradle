@@ -1,0 +1,7 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+
+dependencies {
+  compile project('enum-1-9')
+  compile project('use-enum')
+}
