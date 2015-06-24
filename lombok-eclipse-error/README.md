@@ -2,7 +2,7 @@ https://code.google.com/p/projectlombok/issues/detail?id=826&colspec=ID%20Type%2
 
 What steps will reproduce the problem?
 
-1. Install eclipse-jee-mars-RC3
+1. Install eclipse-jee-mars-release: <http://ftp.halifax.rwth-aachen.de/eclipse//technology/epp/downloads/release/mars/R/eclipse-jee-mars-R-linux-gtk-x86_64.tar.gz>
 2. Copy the installation and install lombok-1.16.4 within the copy
 3. Create a new eclipse project and within this, create the java class mentioned below (... it contains an error)
 4. Try to do a quickfix
@@ -20,6 +20,7 @@ What version of the product are you using? On what operating system?
 
 * Linux, Ubuntu1404, 64 bit
 * Lombok-1.16.4 (latest version)
+* Eclipse-Jee-Mars-R, 64 bit
 * Eclipse-Jee-Mars-RC3, 64 bit
 
 Please provide any additional information below.
