@@ -4,19 +4,26 @@ apply plugin: "jetty"
 //apply plugin: "eclipse"
 apply plugin: "eclipse-wtp"
 
-String springVersion='3.2.2.RELEASE';
+String springVersion='4.1.7.RELEASE';
 
 dependencies {
 //    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
-//    compile group: 'javax.faces', name: 'javax.faces-api', version: '2.1'
+    compile group: 'javax.faces', name: 'javax.faces-api', version: '2.1'
 //    compile group: '', name: '',   version: ''
 //    compile group: 'org.springframework', name: 'spring-core',   version: springVersion
 //    compile group: 'org.springframework', name: 'spring-beans',   version: springVersion
+    providedCompile "javax.servlet:javax.servlet-api:3.0.1"
+    providedCompile 'javax.inject:javax.inject:1'
+    providedCompile 'javax.persistence:persistence-api:1.0.2'
     compile group: 'org.springframework', name: 'spring-context',   version: springVersion
     compile group: 'org.springframework', name: 'spring-web',   version: springVersion
     compile group: 'javax.el', name: 'el-api',   version: '2.2'
     compile group: 'org.glassfish',  name: 'javax.faces',   version: '2.1.20'
     compile group: 'org.primefaces', name: 'primefaces',    version: '3.5'
+    compile 'commons-lang:commons-lang:2.6'
+    compile guava()
+    compile slf4jApi()
+    compile slf4jLog4j12()
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
