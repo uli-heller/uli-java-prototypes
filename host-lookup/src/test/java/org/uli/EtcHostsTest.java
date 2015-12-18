@@ -93,5 +93,10 @@ public class EtcHostsTest {
         ia = etcHosts.get("localuli2.daemons-point.com");
         assertEquals("localuli2.daemons-point.com", ia.getHostName());
         assertEquals("127.128.129.131", ia.getHostAddress());
+        
+        etcHosts.merge(new ByteArrayInputStream("127.128.129.132 localuli2".getBytes()));
+        ia = etcHosts.get("localuli2");
+        assertEquals("localuli2", ia.getHostName());
+        assertEquals("127.128.129.132", ia.getHostAddress());
     }
 }

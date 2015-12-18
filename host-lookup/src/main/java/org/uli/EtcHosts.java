@@ -76,10 +76,12 @@ public class EtcHosts {
             String ipAddress = line.substring(start, end);
             InetAddress ia = InetAddress.getByName(ipAddress);
             line = line.substring(end).trim();
-            Iterable<String> names = Splitter.onPattern("[ \t]").omitEmptyStrings().split(line);
-            for (String name : names) {
-                InetAddress complete = InetAddress.getByAddress(name, ia.getAddress());
-                l.add(complete);
+            for (String name : line.split("[ \t]")) {
+                name = name.trim();
+                if (name.length() > 0) {
+                    InetAddress complete = InetAddress.getByAddress(name, ia.getAddress());
+                    l.add(complete);
+                }
             }
         }
         return l;
