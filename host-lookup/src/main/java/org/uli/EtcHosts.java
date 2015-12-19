@@ -8,36 +8,63 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EtcHosts {
-    Map<String, InetAddress> map = new HashMap<String,InetAddress>();
+    Map<String, InetAddress> byHostName = new HashMap<String,InetAddress>();
+    Map<InetAddressWrapper, InetAddress> byAddress = new HashMap<InetAddressWrapper,InetAddress>();
     public static EtcHosts from(String filename) throws IOException {
         return from(new FileInputStream(new File(filename)));
     }
 
     public static EtcHosts from(InputStream inputStream) throws IOException {
         EtcHosts etcHosts = new EtcHosts();
-        etcHosts.map = etcHosts.readIt(inputStream); 
+        etcHosts.byHostName = etcHosts.readIt(inputStream);
+        etcHosts.byAddress = etcHosts.initByAddress(etcHosts.byHostName);
         return etcHosts;
     }
 
     public void merge(InputStream inputStream) throws IOException {
-        Map<String, InetAddress> map = this.readIt(inputStream);
-        this.map.putAll(map);
+        Map<String, InetAddress> additionalHosts = this.readIt(inputStream);
+        Map<InetAddressWrapper, InetAddress> additionalAddresses = this.initByAddress(additionalHosts);
+        this.byHostName.putAll(additionalHosts);
+        this.byAddress.putAll(additionalAddresses);
     }
 
-    public InetAddress get(String hostname) {
-        return this.map.get(hostname);
+    public InetAddress getByHostName(String hostName) {
+        return this.byHostName.get(hostName);
+    }
+
+    public InetAddress getByAddress(byte[] address) {
+        return this.byAddress.get(new InetAddressWrapper(address));
+    }
+
+    public InetAddress getByAddress(String address) {
+        InetAddress result = null;
+        Matcher m = ipAddressPattern.matcher(address.trim());
+        if (m.matches()) {
+            try {
+                InetAddress ia = InetAddress.getByName(address);
+                result = this.getByAddress(ia.getAddress());
+            } catch (UnknownHostException e) {
+                result = null;
+            }
+        }
+        return result;
     }
 
     private Map<String, InetAddress> readIt(InputStream inputStream) throws IOException {
-        Map<String, InetAddress> map = new HashMap<String,InetAddress>();
+        Map<String, InetAddress> map = new LinkedHashMap<String,InetAddress>();
         BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
         for (;;) {
             String line= r.readLine();
@@ -48,7 +75,20 @@ public class EtcHosts {
         }
         return map;
     }
-    
+
+    private Map<InetAddressWrapper, InetAddress> initByAddress(Map<String, InetAddress> byHostName) {
+        Map<InetAddressWrapper, InetAddress> newByAddress = new HashMap<InetAddressWrapper, InetAddress>();
+        Set<Entry<String, InetAddress>> entries = byHostName.entrySet();
+        List<Entry<String, InetAddress>> l = new LinkedList<Entry<String, InetAddress>>(entries);
+        Collections.reverse(l);
+        for (Entry<String, InetAddress> entry : l) {
+            InetAddress ia = entry.getValue();
+            InetAddressWrapper iaw = new InetAddressWrapper(ia.getAddress());
+            newByAddress.put(iaw, ia);
+        }
+        return newByAddress;
+    }
+
     private static final String COMMENT="#";
     private static final String IPADDRESS="^[0-9.:]*";
     private static final Pattern ipAddressPattern = Pattern.compile(IPADDRESS);
@@ -83,5 +123,42 @@ public class EtcHosts {
             }
         }
         return l;
+    }
+
+    private class InetAddressWrapper {
+        byte[] address;
+
+        private InetAddressWrapper(byte[] address) {
+            this.address = address;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getOuterType().hashCode();
+            result = prime * result + Arrays.hashCode(address);
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            InetAddressWrapper other = (InetAddressWrapper) obj;
+            if (!getOuterType().equals(other.getOuterType()))
+                return false;
+            if (!Arrays.equals(address, other.address))
+                return false;
+            return true;
+        }
+
+        private EtcHosts getOuterType() {
+            return EtcHosts.this;
+        }
     }
 }

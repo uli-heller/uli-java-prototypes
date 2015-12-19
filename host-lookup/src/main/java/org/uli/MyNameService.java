@@ -6,6 +6,7 @@ package org.uli;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import sun.net.spi.nameservice.NameService;
 
@@ -18,7 +19,7 @@ public class MyNameService implements NameService {
     }
 
     public InetAddress[] lookupAllHostAddr(String host) throws UnknownHostException {
-        InetAddress ia = this.etcHosts.get(host);
+        InetAddress ia = this.etcHosts.getByHostName(host);
         if (ia == null) {
             throw new UnknownHostException(host);
         }
@@ -26,6 +27,10 @@ public class MyNameService implements NameService {
     }
 
     public String getHostByAddr(byte[] addr) throws UnknownHostException {
-        throw new Error("not implemented");
+        InetAddress ia = this.etcHosts.getByAddress(addr);
+        if (ia == null) {
+            throw new UnknownHostException(Arrays.toString(addr));
+        }
+        return ia.getHostName();
     }
 }
