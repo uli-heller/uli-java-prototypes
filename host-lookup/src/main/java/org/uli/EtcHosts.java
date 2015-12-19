@@ -15,8 +15,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Splitter;
-
 public class EtcHosts {
     Map<String, InetAddress> map = new HashMap<String,InetAddress>();
     public static EtcHosts from(String filename) throws IOException {
