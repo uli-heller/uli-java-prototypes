@@ -184,6 +184,10 @@ public class TeeFilter implements Filter {
         }
 
         public String getContent() {
+            if (bos == null) {
+                return "";
+            }
+
             try {
                 return bos.toString(Charset.defaultCharset().name());
             } catch (UnsupportedEncodingException e) {
