@@ -12,11 +12,16 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -61,12 +66,53 @@ public class TeeFilter implements Filter {
                         bufferedRequest.getRequestBody(),
                         httpServletRequest.getRemoteAddr()
             );
+            logHeaders(" -request-> ", headersToMap(httpServletRequest));
             chain.doFilter(bufferedRequest, bufferedResponse);
             logger.debug("Response - [RESPONSE:{}]", bufferedResponse.getContent());
+            logHeaders(" <-resonse- ", headersToMap(httpServletResponse));
         } catch (Throwable a) {
             logger.error("Error when trying to log request and response", a);
         }
     }
+    private Map<String, List<String>> headersToMap(HttpServletRequest r) {
+        Map<String, List<String>> m = new HashMap<String, List<String>>();
+        Enumeration<String> names = r.getHeaderNames();
+        while (names.hasMoreElements()) {
+          String name = names.nextElement();
+          List<String> valuesList = new LinkedList<String>();
+          Enumeration<String> values = r.getHeaders(name);
+          while (values.hasMoreElements()) {
+            String v = values.nextElement();
+            valuesList.add(v);
+          }
+          m.put(name, valuesList);
+        }
+        return m;
+      }
+
+      private Map<String, List<String>> headersToMap(HttpServletResponse r) {
+        Map<String, List<String>> m = new HashMap<String, List<String>>();
+        Collection<String> names = r.getHeaderNames();
+        for (String name : names) {
+          List<String> valuesList = new LinkedList<String>();
+          Collection<String> values = r.getHeaders(name);
+          for (String v : values) {
+            valuesList.add(v);
+          }
+          m.put(name, valuesList);
+        }
+        return m;
+      }
+
+      private void logHeaders(String pfx, Map<String, List<String>> headers) {
+        Set<String> namesSet = headers.keySet();
+        List<String> namesList = new ArrayList<String>(namesSet);
+        Collections.sort(namesList);
+        for (String name : namesList) {
+          List<String> values = headers.get(name);
+          logger.debug(pfx + " " + name + "=" + values);
+        }
+      }
 
     private Map<String, String> getTypesafeRequestMap(HttpServletRequest request) {
         Map<String, String> typesafeRequestMap = new HashMap<String, String>();
