@@ -43,13 +43,15 @@ public class SampleServlet extends HttpServlet {
             + "<p>If you see this page, the web app seems to work quite well.</p>"
             + "</body> \n" + "</html>";
 
+   private Logger logger = LoggerFactory.getLogger(SampleServlet.class);
+
    protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-      Logger logger = LoggerFactory.getLogger(SampleServlet.class);
       logger.debug("request=" + request);
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
       out.println(resultPageStart);
+      flushAndWait(out, 1000L);
       Map<String, String> requestMap = new HashMap<String, String>();
       Map<String, String> m = new HashMap<String, String>();
       requestMap.put("authType", request.getAuthType());
@@ -71,6 +73,7 @@ public class SampleServlet extends HttpServlet {
       requestMap.put("pathInfo", pathInfo);
       requestMap.put("queryString", queryString);
       out.println(mapToList("Request:", requestMap));
+      flushAndWait(out, 2000L);
       m.put("ServletInfo", this.getServletInfo());
       m.put("ServletName", this.getServletName());
       ServletContext servletContext = this.getServletContext();
@@ -146,5 +149,14 @@ public class SampleServlet extends HttpServlet {
    @SuppressWarnings("unchecked")
    private final Map<String, String> p2m(Properties p) {
       return (Map<String, String>) (Map<?, ?>) p;
+   }
+
+   private final void flushAndWait(PrintWriter out, long wait) {
+       out.flush();
+       try {
+        Thread.sleep(wait);
+    } catch (InterruptedException e) {
+        logger.error("Cannot sleep");
+    }
    }
 }
