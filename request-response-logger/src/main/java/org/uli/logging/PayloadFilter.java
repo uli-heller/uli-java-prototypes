@@ -67,7 +67,6 @@ public class PayloadFilter implements Filter {
         HttpServletResponseCopier responseCopier = new HttpServletResponseCopier(
                 (HttpServletResponse) response);
         logHeaders(" -request-> ", headersToMap(httpServletRequest));
-        chain.doFilter(myRequestWrapper, responseCopier);
         try {
             chain.doFilter(myRequestWrapper, responseCopier);
             responseCopier.flushBuffer();
