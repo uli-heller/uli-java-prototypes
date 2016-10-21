@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PayloadFilter implements Filter {
-    private final Logger logger = LoggerFactory.getLogger(TeeFilter.class);
+    private final Logger logger = LoggerFactory.getLogger(PayloadFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
