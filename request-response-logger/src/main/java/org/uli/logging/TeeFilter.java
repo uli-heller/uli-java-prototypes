@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +37,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.io.output.TeeOutputStream;
 import org.slf4j.Logger;
@@ -42,10 +45,43 @@ import org.slf4j.LoggerFactory;
 
 public class TeeFilter implements Filter {
 
+    private final static String LOG_REQUEST_PAYLOAD = "logRequestPayload";
+    private final static String LOG_RESPONSE_PAYLOAD = "logResponsePayload";
+
     private final Logger logger = LoggerFactory.getLogger(TeeFilter.class);
+    private static boolean fHttpServletResponseHasGetHeaderNames = false; // Initialized via init()
+    private static Method mSetContentLengthLong = null; // Initialized via init()
+    static private boolean fLogRequestPayload = true;
+    static private boolean fLogResponsePayload = true;
+    private final static Map<String, List<String>> EMPTY=new HashMap<String, List<String>>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        //int effectiveMajorVersion = filterConfig.getServletContext().getEffectiveMajorVersion();
+        //int effectiveMinorVersion = filterConfig.getServletContext().getEffectiveMinorVersion();
+        int majorVersion = filterConfig.getServletContext().getMajorVersion();
+        int minorVersion = filterConfig.getServletContext().getMinorVersion();
+        TeeFilter.fHttpServletResponseHasGetHeaderNames = majorVersion < 3 ? false : true; // Only available for servlet 3 and upwards
+        if ((majorVersion == 3 && minorVersion >= 1) || majorVersion > 3) {
+            try {
+                mSetContentLengthLong = HttpServletResponse.class.getMethod("setContentLengthLong", long.class);
+            } catch (NoSuchMethodException e) {
+                logger.info("Unexpected exception - nosuchmethod:", e);
+            } catch (SecurityException e) {
+                logger.info("Unexpected exception - security:", e);
+            }
+        }
+        fLogRequestPayload = parseBoolean(filterConfig.getInitParameter(LOG_REQUEST_PAYLOAD), true);
+        fLogResponsePayload = parseBoolean(filterConfig.getInitParameter(LOG_RESPONSE_PAYLOAD), true);
+    }
+
+    private boolean parseBoolean(String s, boolean dflt) {
+        boolean result = dflt;
+        if (s != null && s.length() > 0) {
+            Boolean v = Boolean.parseBoolean(s);
+            result = v.booleanValue();
+        }
+        return result;
     }
 
     @Override
@@ -55,20 +91,29 @@ public class TeeFilter implements Filter {
             HttpServletRequest httpServletRequest = (HttpServletRequest) request;
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             Map<String, String> requestMap = this.getTypesafeRequestMap(httpServletRequest);
-            BufferedRequestWrapper bufferedRequest = new BufferedRequestWrapper(httpServletRequest);
-            BufferedResponseWrapper bufferedResponse = new BufferedResponseWrapper(httpServletResponse);
-            logger.debug("Request - [HTTP METHOD:{}] [SERVLET PATH:{}] [QUERY STRING:{}] [PATH INFO:{}] [REQUEST_PARAMETERS:{}] [REQUEST BODY:{}] [REMOTE ADDRESS:{}]",
+            if (fLogRequestPayload) {
+                httpServletRequest = new BufferedRequestWrapper(httpServletRequest);
+            }
+            if (fLogResponsePayload) {
+                httpServletResponse = new BufferedResponseWrapper(httpServletResponse);
+            }
+            logger.debug("Request - [HTTP METHOD:{}] [SERVLET PATH:{}] [QUERY STRING:{}] [PATH INFO:{}] [REQUEST_PARAMETERS:{}] [REMOTE ADDRESS:{}]",
                         httpServletRequest.getMethod(),
                         httpServletRequest.getServletPath(),
                         httpServletRequest.getQueryString(),
                         httpServletRequest.getPathInfo(),
                         requestMap,
-                        bufferedRequest.getRequestBody(),
                         httpServletRequest.getRemoteAddr()
             );
+            if (fLogRequestPayload) {
+                logger.debug("Request - [PAYLOAD/BODY: {}]", ((BufferedRequestWrapper)httpServletRequest).getRequestBody());
+            }
             logHeaders(" -request-> ", headersToMap(httpServletRequest));
-            chain.doFilter(bufferedRequest, bufferedResponse);
-            logger.debug("Response - [RESPONSE:{}]", bufferedResponse.getContent());
+            chain.doFilter(httpServletRequest, httpServletResponse);
+            logger.debug("Response");
+            if (fLogResponsePayload) {
+                logger.debug("Response - [PAYLOAD/CONTENT: {}]", ((BufferedResponseWrapper)httpServletResponse).getContent());
+            }
             logHeaders(" <-resonse- ", headersToMap(httpServletResponse));
         } catch (Throwable a) {
             logger.error("Error when trying to log request and response", a);
@@ -88,21 +133,25 @@ public class TeeFilter implements Filter {
           m.put(name, valuesList);
         }
         return m;
-      }
+    }
 
-      private Map<String, List<String>> headersToMap(HttpServletResponse r) {
-        Map<String, List<String>> m = new HashMap<String, List<String>>();
-        Collection<String> names = r.getHeaderNames();
-        for (String name : names) {
-          List<String> valuesList = new LinkedList<String>();
-          Collection<String> values = r.getHeaders(name);
-          for (String v : values) {
-            valuesList.add(v);
+    private Map<String, List<String>> headersToMap(HttpServletResponse r) {
+        Map<String, List<String>> result = EMPTY;
+        if (fHttpServletResponseHasGetHeaderNames) {
+          Map<String, List<String>> m = new HashMap<String, List<String>>();
+          Collection<String> names = r.getHeaderNames();
+          for (String name : names) {
+            List<String> valuesList = new LinkedList<String>();
+            Collection<String> values = r.getHeaders(name);
+            for (String v : values) {
+              valuesList.add(v);
+            }
+            m.put(name, valuesList);
           }
-          m.put(name, valuesList);
+          result = m;
         }
-        return m;
-      }
+        return result;
+    }
 
       private void logHeaders(String pfx, Map<String, List<String>> headers) {
         Set<String> namesSet = headers.keySet();
@@ -219,13 +268,15 @@ public class TeeFilter implements Filter {
         }
     }
     
-    public static class BufferedResponseWrapper implements HttpServletResponse {
+    public static class BufferedResponseWrapper extends HttpServletResponseWrapper {
+        private final Logger logger = LoggerFactory.getLogger(BufferedResponseWrapper.class);
 
         HttpServletResponse original;
         TeeServletOutputStream tee;
         ByteArrayOutputStream bos;
 
         public BufferedResponseWrapper(HttpServletResponse response) {
+            super(response);
             original = response;
         }
 
@@ -237,192 +288,18 @@ public class TeeFilter implements Filter {
             try {
                 return bos.toString(Charset.defaultCharset().name());
             } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.error("Strange error related to character encoding", e);
                 return "ERROR - UliWasHere!";
             }
         }
 
-        public Collection<String> getHeaderNames() {
-            return original.getHeaderNames();
-        }
-
-        public Collection<String> getHeaders(String name) {
-            return original.getHeaders(name);
-        }
-
-        public String getHeader(String name) {
-            return original.getHeader(name);
-        }
-
-        public int getStatus() {
-            return original.getStatus();
-        }
-
-        public PrintWriter getWriter() throws IOException {
-            java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(getOutputStream(), "UTF-8");
-            return new PrintWriter(osw);
-        }
-
+        @Override
         public ServletOutputStream getOutputStream() throws IOException {
             if (tee == null) {
                 bos = new ByteArrayOutputStream();
                 tee = new TeeServletOutputStream(original.getOutputStream(), bos);
             }
             return tee;
-        }
-
-        @Override
-        public String getCharacterEncoding() {
-            return original.getCharacterEncoding();
-        }
-
-        @Override
-        public String getContentType() {
-            return original.getContentType();
-        }
-
-        @Override
-        public void setCharacterEncoding(String charset) {
-            original.setCharacterEncoding(charset);
-        }
-
-        @Override
-        public void setContentLength(int len) {
-            original.setContentLength(len);
-        }
-
-        @Override
-        public void setContentType(String type) {
-            original.setContentType(type);
-        }
-
-        @Override
-        public void setBufferSize(int size) {
-            original.setBufferSize(size);
-        }
-
-        @Override
-        public int getBufferSize() {
-            return original.getBufferSize();
-        }
-
-        @Override
-        public void flushBuffer() throws IOException {
-            tee.flush();
-        }
-
-        @Override
-        public void resetBuffer() {
-            original.resetBuffer();
-        }
-
-        @Override
-        public boolean isCommitted() {
-            return original.isCommitted();
-        }
-
-        @Override
-        public void reset() {
-            original.reset();
-        }
-
-        @Override
-        public void setLocale(Locale loc) {
-            original.setLocale(loc);
-        }
-
-        @Override
-        public Locale getLocale() {
-            return original.getLocale();
-        }
-
-        @Override
-        public void addCookie(Cookie cookie) {
-            original.addCookie(cookie);
-        }
-
-        @Override
-        public boolean containsHeader(String name) {
-            return original.containsHeader(name);
-        }
-
-        @Override
-        public String encodeURL(String url) {
-            return original.encodeURL(url);
-        }
-
-        @Override
-        public String encodeRedirectURL(String url) {
-            return original.encodeRedirectURL(url);
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public String encodeUrl(String url) {
-            return original.encodeUrl(url);
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public String encodeRedirectUrl(String url) {
-            return original.encodeRedirectUrl(url);
-        }
-
-        @Override
-        public void sendError(int sc, String msg) throws IOException {
-            original.sendError(sc, msg);
-        }
-
-        @Override
-        public void sendError(int sc) throws IOException {
-            original.sendError(sc);
-        }
-
-        @Override
-        public void sendRedirect(String location) throws IOException {
-            original.sendRedirect(location);
-        }
-
-        @Override
-        public void setDateHeader(String name, long date) {
-            original.setDateHeader(name, date);
-        }
-
-        @Override
-        public void addDateHeader(String name, long date) {
-            original.addDateHeader(name, date);
-        }
-
-        @Override
-        public void setHeader(String name, String value) {
-            original.setHeader(name, value);
-        }
-
-        @Override
-        public void addHeader(String name, String value) {
-            original.addHeader(name, value);
-        }
-
-        @Override
-        public void setIntHeader(String name, int value) {
-            original.setIntHeader(name, value);
-        }
-
-        @Override
-        public void addIntHeader(String name, int value) {
-            original.addIntHeader(name, value);
-        }
-
-        @Override
-        public void setStatus(int sc) {
-            original.setStatus(sc);
-        }
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public void setStatus(int sc, String sm) {
-            original.setStatus(sc, sm);
         }
     }
 }
