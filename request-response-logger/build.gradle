@@ -1,7 +1,7 @@
 apply plugin: "java"
 apply plugin: "war"
 apply plugin: "eclipse"
-apply plugin: "findbugs"
+//apply plugin: "findbugs"
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.5'
